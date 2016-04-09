@@ -38,7 +38,7 @@ def get_picture(post_id, dir="."):
         f_handle = open(f_name, "wb")
         f_handle.write(pic)
         f_handle.close()
-        return f_name
+        return "{}.png".format(pic_id)
     except facepy.FacebookError:
         return None
 
@@ -100,7 +100,7 @@ def get_aggregated_feed(pages):
         page_data = get_feed(_id)
         for data_dict in page_data:
             data_dict['source'] = page_name
-            data_dict['pic'] = get_picture(data_dict['id'])
+            data_dict['pic'] = get_picture(data_dict['id'], dir='output')
         data.extend(page_data)
 
     data.sort(key=lambda x: parse(x['created_time']), reverse=True)
@@ -114,5 +114,5 @@ if __name__ == "__main__":
                   ('Technology Students Gymkhana', 'TSG.IITKharagpur')]
     for_later = ['Cultural-IIT-Kharagpur']
     data = get_aggregated_feed(news_pages)
-    json.dump(data, open('feed.json', 'w'))
-    write_html(data, 'feed.html')
+    json.dump(data, open('output/feed.json', 'w'))
+    write_html(data, 'output/feed.html')
