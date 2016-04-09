@@ -9,4 +9,5 @@ mv ../output/* ./
 rm -rf output
 git add *
 git commit -m "Build"
-git push origin master
+git push origin -f gh-pages
+git checkout master
