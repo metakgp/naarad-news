@@ -1,0 +1,19 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+access_token	fbscraper.py	/^    access_token = file_handle.readline().rstrip('\\n')$/;"	v	language:Python
+data	fbscraper.py	/^    data = get_aggregated_feed(news_pages)$/;"	v	language:Python
+data	frontend.py	/^    data = json.load(open('output\/feed.json', 'r'))$/;"	v	language:Python
+fixnewlines	frontend.py	/^def fixnewlines(data):$/;"	f	language:Python
+for_later	fbscraper.py	/^    for_later = ['Cultural-IIT-Kharagpur']$/;"	v	language:Python
+get_aggregated_feed	fbscraper.py	/^def get_aggregated_feed(pages):$/;"	f	language:Python
+get_comments	fbscraper.py	/^def get_comments(post_id):$/;"	f	language:Python
+get_feed	fbscraper.py	/^def get_feed(page_id, pages=1):$/;"	f	language:Python
+get_html	frontend.py	/^def get_html(data):$/;"	f	language:Python
+get_picture	fbscraper.py	/^def get_picture(post_id, dir="."):$/;"	f	language:Python
+graph	fbscraper.py	/^graph = GraphAPI(access_token)$/;"	v	language:Python
+news_pages	fbscraper.py	/^    news_pages = [('The Scholar\\'s Avenue', 'scholarsavenue'),$/;"	v	language:Python
+write_html	frontend.py	/^def write_html(data, file_name):$/;"	f	language:Python
