@@ -14,7 +14,7 @@ with open('./ACCESS_TOKEN', 'r') as file_handle:
 graph = GraphAPI(access_token)
 
 
-def getcomments(post_id):
+def get_comments(post_id):
     base_query = post_id + '/comments'
 
     # scrape the first page
@@ -24,8 +24,27 @@ def getcomments(post_id):
     return data
 
 
-def getfeed(page_id, pages=1):
-    base_query = page_id + '/feed?limit=100'
+def get_picture(post_id, dir="."):
+    base_query = post_id + '?fields=object_id'
+    try:
+        pic_id = graph.get(base_query)['object_id']
+    except KeyError:
+        return None
+
+    try:
+        pic = graph.get('{}/picture'.format(pic_id))
+
+        f_name = "{}/{}.png".format(dir, pic_id)
+        f_handle = open(f_name, "wb")
+        f_handle.write(pic)
+        f_handle.close()
+        return f_name
+    except facepy.FacebookError:
+        return None
+
+
+def get_feed(page_id, pages=1):
+    base_query = page_id + '/feed?limit=10'
 
     # scrape the first page
     print('scraping:', base_query)
@@ -78,9 +97,10 @@ def get_aggregated_feed(pages):
     """
     data = list()
     for page_name, _id in pages:
-        page_data = getfeed(_id)
+        page_data = get_feed(_id)
         for data_dict in page_data:
             data_dict['source'] = page_name
+            data_dict['pic'] = get_picture(data_dict['id'])
         data.extend(page_data)
 
     data.sort(key=lambda x: parse(x['created_time']), reverse=True)
@@ -89,7 +109,9 @@ def get_aggregated_feed(pages):
 
 if __name__ == "__main__":
     # Great thanks to https://gist.github.com/abelsonlive/4212647
-    news_pages = [('The Scholar\'s Avenue', 'scholarsavenue'), ('Awaaz IIT Kharagpur', 'awaaziitkgp')]
+    news_pages = [('The Scholar\'s Avenue', 'scholarsavenue'),
+                  ('Awaaz IIT Kharagpur', 'awaaziitkgp'),
+                  ('Technology Students Gymkhana', 'TSG.IITKharagpur')]
     for_later = ['Cultural-IIT-Kharagpur']
     data = get_aggregated_feed(news_pages)
     json.dump(data, open('feed.json', 'w'))
