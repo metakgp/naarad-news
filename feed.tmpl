@@ -1,0 +1,13 @@
+<html>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>KGP Trends </title>
+    {% for post in data %}
+        <b> {{post['source'] }} </b> <br>
+        <p> Posted on: {{ post['created_time'] }}
+        <p> {{ post['message'] }} </p>
+        {% if post['pic'] %}
+            <img src="{{ post['pic'] }}">
+        {% endif %}
+        <hr>
+    {% endfor %}
+</html>
