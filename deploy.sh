@@ -1,13 +1,16 @@
 #!/bin/bash
 
 # Ensure that you have rebuilt the site and commited your changes
+echo "Deploying to GitHub pages..."
 
-python fbscrapper.py
-mv output ../output
-git checkout gh-pages
-mv ../output/* ./
-rm -rf output
-git add *
-git commit -m "Build"
-git push origin -f gh-pages
-git checkout master
+# Create the subtree
+git subtree split --prefix output -b gh-pages
+# Push to origin
+git push -f origin gh-pages
+# Remove so that later the process can be repeated
+git branch -D gh-pages
+# Push master
+git push origin master
+
+# nikola github_deploy
+# git checkout master
