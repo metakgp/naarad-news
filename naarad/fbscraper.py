@@ -3,7 +3,6 @@ from facepy import GraphAPI
 import facepy
 import re
 import json
-from frontend import write_html
 from dateutil.parser import parse
 
 # You need to have the Access Token is stored in a plain text file ACCESS_TOKEN
@@ -107,13 +106,16 @@ def get_aggregated_feed(pages):
     return data
 
 
-if __name__ == "__main__":
+def scrape(news_pages):
     # Great thanks to https://gist.github.com/abelsonlive/4212647
+    data = get_aggregated_feed(news_pages)
+    json.dump(data, open('output/feed.json', 'w'))
+
+
+if __name__ == "__main__":
     news_pages = [('The Scholar\'s Avenue', 'scholarsavenue'),
                   ('Awaaz IIT Kharagpur', 'awaaziitkgp'),
                   ('Technology Students Gymkhana', 'TSG.IITKharagpur'),
-                  ('Technology IIT KGP', 'iitkgp.tech')]
-    for_later = ['Cultural-IIT-Kharagpur']
-    data = get_aggregated_feed(news_pages)
-    json.dump(data, open('output/feed.json', 'w'))
-    write_html(data, 'output/index.html')
+                  ('Technology IIT KGP', 'iitkgp.tech'),
+                  ('IIT Kharagpur (Official Page)', 'iitkgp')]
+    scrape(news_pages)
