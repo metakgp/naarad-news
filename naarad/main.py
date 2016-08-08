@@ -2,6 +2,8 @@
 import json
 from naarad.fbscraper import scrape
 from naarad.frontend import write_html
+from naarad.deploy import deploy
+import subprocess
 
 
 def main():
@@ -15,3 +17,5 @@ def main():
     data = json.load(open('output/feed.json', 'r'))
 
     write_html(data, 'output/feed.html')
+
+    deploy()
