@@ -12,12 +12,9 @@ api.
 
 ## How to use Naarad
 
-* Get a Facebook API token
-* Install `facepy`
-* Run `fbscraper.py` to create `feed.json`
-* Run `frontend.py` to create the html file out of the `json`
-* Run `deploy.sh` to push the changes to `gh-pages`.
-
+* Get a Facebook app API token and put in a file named `ACCESS_TOKEN`
+* Run `pip install -e .`
+* Run `naarad`
 
 
 ## License
