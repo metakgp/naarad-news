@@ -115,6 +115,16 @@ def get_feed(page_id, pages=10):
     return data
 
 
+def remove_duplicates(data):
+    
+    uniq_data = []
+    for i in range(0,len(data)):
+        if data[i] not in uniq_data:
+            uniq_data.append(data[i])
+
+    return uniq_data        
+
+
 def get_aggregated_feed(pages):
     """
     Aggregates feeds give a list of pages and their ids.
@@ -130,9 +140,7 @@ def get_aggregated_feed(pages):
         data.extend(page_data)
 
     data.sort(key=lambda x: parse(x['created_time']), reverse=True)
-
     return data
-
 
 if __name__ == "__main__":
     # Great thanks to https://gist.github.com/abelsonlive/4212647
@@ -143,6 +151,7 @@ if __name__ == "__main__":
     for_later = ['Cultural-IIT-Kharagpur']
 
     data = get_aggregated_feed(news_pages)
+    data = remove_duplicates(data)
 
     json.dump(data, open('output/feed.json', 'w'))
     write_html(data, 'output/index.html')
