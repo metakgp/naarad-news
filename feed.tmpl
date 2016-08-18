@@ -1,26 +1,26 @@
 <html>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700' rel='stylesheet' type='text/css'>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/templatemo-style.css" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
     <title>KGP Trends </title>
-    <div class="row">
-      <div class="col-12">
         {% for post in data %}
-          <div class="row post">
-            <div class="post-header">
-              <h3 class="post-source">
-                <b> {{post['source'] }} </b> <br>
-              </h3>
-              <h4 class="post-time">
-                <p> Posted on: {{ post['created_time'] }} </p>
-              </h4>
-            </div>
-            <div class="post-message">
-              <p> {{ post['message'] }} </p>
-              {% if post['pic'] %}
-                  <img class="center" src="{{ post['pic'] }}">
-              {% endif %}
-            </div>
-          </div>
+           <div class="about-container">
+             <div class="about-container-left">
+                 {% if post['pic'] %}
+                    <img class="img-responsive" src="{{ post['pic'] }}">
+                 {% endif %}
+             </div>
+              <div class="about-container-right">
+                <h2 class="about-title"> {{post['source'] }} </h2>
+                <p class="about-description"> <b>Posted on: {{ post['created_time'] }}</b></p>
+                <p class="about-description" > {{ post['message'] }} {{post['link']}} </p>
+              </div>      
+            </div>       
         {% endfor %}
-      </div>
-    </div>
+
 </html>
