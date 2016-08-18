@@ -103,7 +103,6 @@ def get_aggregated_feed(pages):
             data_dict['pic'] = get_picture(data_dict['id'], dir='output')
         data.extend(page_data)
 
-    data.sort(key=lambda x: parse(x['created_time']), reverse=True)
     return data
 
 
@@ -115,5 +114,10 @@ if __name__ == "__main__":
                   ('Technology IIT KGP', 'iitkgp.tech')]
     for_later = ['Cultural-IIT-Kharagpur']
     data = get_aggregated_feed(news_pages)
+    old_data = json.load(open('output/feed.json', 'r'))
+
+    data.extend(old_data)
+    data.sort(key=lambda x: parse(x['created_time']), reverse=True)
+
     json.dump(data, open('output/feed.json', 'w'))
     write_html(data, 'output/index.html')
