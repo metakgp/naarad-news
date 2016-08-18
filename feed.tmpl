@@ -1,13 +1,26 @@
 <html>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <title>KGP Trends </title>
-    {% for post in data %}
-        <b> {{post['source'] }} </b> <br>
-        <p> Posted on: {{ post['created_time'] }}
-        <p> {{ post['message'] }} </p>
-        {% if post['pic'] %}
-            <img src="{{ post['pic'] }}">
-        {% endif %}
-        <hr>
-    {% endfor %}
+    <div class="row">
+      <div class="col-12">
+        {% for post in data %}
+          <div class="row post">
+            <div class="post-header">
+              <h3 class="post-source">
+                <b> {{post['source'] }} </b> <br>
+              </h3>
+              <h4 class="post-time">
+                <p> Posted on: {{ post['created_time'] }} </p>
+              </h4>
+            </div>
+            <div class="post-message">
+              <p> {{ post['message'] }} </p>
+              {% if post['pic'] %}
+                  <img class="center" src="{{ post['pic'] }}">
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
 </html>

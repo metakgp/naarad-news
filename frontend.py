@@ -1,19 +1,17 @@
-import jinja2
-from jinja2 import Template
 import json
+
+from jinja2 import Template
 
 
 def fixnewlines(data):
     for post in data:
-        try:
+        if 'message' in post:
             post['message'] = post['message'].replace('\n', '<br>')
-        except KeyError:
-            pass
     return data
 
 
 def get_html(data):
-    template_raw = "".join(open('feed.tmpl', 'r').readlines())
+    template_raw = open('feed.tmpl', 'r').read()
     template = Template(template_raw)
     data = fixnewlines(data)
     html = template.render(data=data)

@@ -1,15 +1,20 @@
 from __future__ import print_function
-from facepy import GraphAPI
-import facepy
+
 import re
 import json
-from frontend import write_html
 from dateutil.parser import parse
 
-# You need to have the Access Token is stored in a plain text file ACCESS_TOKEN
-# to get an access token follow this SO answer: http://stackoverflow.com/a/16054555/1780891
-with open('./ACCESS_TOKEN', 'r') as file_handle:
-    access_token = file_handle.readline().rstrip('\n')
+import facepy
+from facepy import GraphAPI
+
+from frontend import write_html
+
+# Put Facebook 'Access Token' in a plain text file ACCESS_TOKEN in same dir.
+# To get an access token follow this SO answer:
+# http://stackoverflow.com/a/16054555/1780891
+
+with open('./ACCESS_TOKEN', 'r') as f:
+    access_token = f.readline().rstrip('\n')
 
 graph = GraphAPI(access_token)
 
@@ -44,7 +49,7 @@ def get_picture(post_id, dir="."):
 
 
 def get_feed(page_id, pages=10):
-
+    # check last update time
     try:
         old_data = json.load(open('output/{}.json'.format(page_id), 'r'))
         last_post_time = parse(old_data[0]['created_time'])
@@ -59,23 +64,22 @@ def get_feed(page_id, pages=10):
     feed = graph.get(base_query)
     new_page_data = feed['data']
 
+    data = []
     is_new_post = (parse(new_page_data[0]['created_time']) > last_post_time)
 
     if is_new_post:
         data = new_page_data
-    else:
-        data = []
 
     # determine the next page
-    next = feed['paging']['next']
-    next_search = re.search('.*(\&until=[0-9]+)', next, re.IGNORECASE)
+    next_page = feed['paging']['next']
+    next_search = re.search('.*(\&until=[0-9]+)', next_page, re.IGNORECASE)
     if next_search:
         the_until_arg = next_search.group(1)
 
     pages = pages - 1
 
     # scrape the rest of the pages
-    while (next is not False) and is_new_post and pages > 0:
+    while (next_page is not False) and is_new_post and pages > 0:
         the_query = base_query + the_until_arg
         print('baking:', the_query)
         try:
@@ -90,13 +94,13 @@ def get_feed(page_id, pages=10):
 
         # determine the next page, until there isn't one
         try:
-            next = feed['paging']['next']
-            next_search = re.search('.*(\&until=[0-9]+)', next, re.IGNORECASE)
+            next_page = feed['paging']['next']
+            next_search = re.search('.*(\&until=[0-9]+)', next_page, re.IGNORECASE)
             if next_search:
                 the_until_arg = next_search.group(1)
         except IndexError:
             print('last page...')
-            next = False
+            next_page = False
         pages = pages - 1
 
     for post_dict in data:
