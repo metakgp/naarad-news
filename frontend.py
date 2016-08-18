@@ -1,5 +1,5 @@
 import json
-
+from django.utils.encoding import smart_str, smart_unicode
 from jinja2 import Template
 
 
@@ -15,13 +15,13 @@ def get_html(data):
     template = Template(template_raw)
     data = fixnewlines(data)
     html = template.render(data=data)
-    return html
+    return smart_unicode(html)
 
 
 def write_html(data, file_name):
     html = get_html(data)
     file_handle = open(file_name, 'w')
-    file_handle.write(html)
+    file_handle.write(smart_str(html))
 
 
 if __name__ == "__main__":
