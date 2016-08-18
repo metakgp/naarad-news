@@ -1,10 +1,18 @@
 #!/bin/bash
 
-python fbscraper.py
-python frontend.py
+# python fbscraper.py
+# python frontend.py
 
-# Ensure that you have rebuilt the site and commited your changes
-echo "Deploying to GitHub pages..."
+# Commit changes
+echo "commiting.."
+git add output/
+git commit -m 'Update and Build'
 
 # Create the subtree, push changes to gh-pages
-git subtree push --prefix output origin gh-pages
+git subtree split --prefix output -b gh-pages
+
+echo "deploying.."
+git push -f origin gh-pages:gh-pages
+
+echo "cleaning..."
+git branch -D gh-pages
