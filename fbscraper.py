@@ -43,15 +43,28 @@ def get_picture(post_id, dir="."):
         return None
 
 
-def get_feed(page_id, pages=1):
-    base_query = page_id + '/feed?limit=10'
+def get_feed(page_id, pages=10):
+
+    try:
+        old_data = json.load(open('output/{}.json'.format(page_id), 'r'))
+        last_post_time = parse(old_data[0]['created_time'])
+    except FileNotFoundError:
+        old_data = []
+        last_post_time = parse("1000-01-01T12:05:06+0000")
+
+    base_query = page_id + '/feed?limit=2'
 
     # scrape the first page
     print('scraping:', base_query)
     feed = graph.get(base_query)
-    data = feed['data']
+    new_page_data = feed['data']
 
-    total_scraped = 0
+    is_new_post = (parse(new_page_data[0]['created_time']) > last_post_time)
+
+    if is_new_post:
+        data = new_page_data
+    else:
+        data = []
 
     # determine the next page
     next = feed['paging']['next']
@@ -62,12 +75,15 @@ def get_feed(page_id, pages=1):
     pages = pages - 1
 
     # scrape the rest of the pages
-    while (next is not False) and pages > 0:
+    while (next is not False) and is_new_post and pages > 0:
         the_query = base_query + the_until_arg
         print('baking:', the_query)
         try:
             feed = graph.get(the_query)
-            data.append(feed['data'])
+            new_page_data = feed['data']
+            is_new_post = (parse(new_page_data[0]['created_time']) > last_post_time)
+
+            data.extend(new_page_data)
         except facepy.exceptions.OAuthError:
             print('start again at', the_query)
             break
@@ -81,9 +97,16 @@ def get_feed(page_id, pages=1):
         except IndexError:
             print('last page...')
             next = False
-        total_scraped = total_scraped + 100
-        print(total_scraped, 'pies in the face so far')
         pages = pages - 1
+
+    for post_dict in data:
+        post_dict['pic'] = get_picture(post_dict['id'], dir='output')
+
+    data.extend(old_data)
+
+    data.sort(key=lambda x: parse(x['created_time']), reverse=True)
+
+    json.dump(data, open('output/{}.json'.format(page_id), 'w'))
 
     return data
 
@@ -100,8 +123,9 @@ def get_aggregated_feed(pages):
         page_data = get_feed(_id)
         for data_dict in page_data:
             data_dict['source'] = page_name
-            data_dict['pic'] = get_picture(data_dict['id'], dir='output')
         data.extend(page_data)
+
+    data.sort(key=lambda x: parse(x['created_time']), reverse=True)
 
     return data
 
@@ -113,11 +137,8 @@ if __name__ == "__main__":
                   ('Technology Students Gymkhana', 'TSG.IITKharagpur'),
                   ('Technology IIT KGP', 'iitkgp.tech')]
     for_later = ['Cultural-IIT-Kharagpur']
-    data = get_aggregated_feed(news_pages)
-    old_data = json.load(open('output/feed.json', 'r'))
 
-    data.extend(old_data)
-    data.sort(key=lambda x: parse(x['created_time']), reverse=True)
+    data = get_aggregated_feed(news_pages)
 
     json.dump(data, open('output/feed.json', 'w'))
     write_html(data, 'output/index.html')
