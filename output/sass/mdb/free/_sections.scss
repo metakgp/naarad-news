@@ -1,0 +1,52 @@
+/*********************
+  SECTIONS AND LAYOUT
+**********************/
+  
+// Sections
+.section-white {
+    background-color: #fff;
+    color: #666666;
+    text-align: center;
+    padding: 2.8em 0;
+    h3 {
+        margin-bottom: 1.1em;
+        margin-top: 1.1em;
+    }
+}
+
+.section-dark {
+    background-color: $elegant-color-dark;
+    color: #fff;
+    text-align: center;
+    padding: 2.8em 0;
+    h3 {
+        margin-bottom: 1.1em;
+        margin-top: 1.1em;
+    }
+}
+
+.section-colored {
+    color: #fff;
+    text-align: center;
+    padding: 2.8em 0;
+    h3 {
+        margin-bottom: 1.1em;
+        margin-top: 1.1em;
+    }
+}
+
+// Full Bacground Image
+
+.full-bg-img {  
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    // Centered Content 
+    .container, .container-fluid {
+        height: 100%;
+    } 
+    //Overlay
+    .view {
+        height: 100%;
+    }
+}
