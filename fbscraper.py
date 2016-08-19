@@ -60,9 +60,11 @@ def get_link(post_id):
 
     return link
 def get_event(post_id) :
-    base_query = None
-
-
+    event_id = post_id.split('_')[1]  #getting only the event id from the post id
+    base_query = event_id
+    event_dict = graph.get(base_query)
+    message = "<b>%s : </b>\n%s\n\nThe event will take place from %s to %s at <b>%s</b>" , (event_dict['name'] , event_dict['description'] ,event_dict['start_time'] ,event_dict['end_time'] ,event_dict['place']['name'] )
+    return message
 def get_shared_post(post_id) :
     base_query = post_id + '?fields=parent_id'
     parent_id = graph.get(base_query)['parent_id']  #getting if of the original post
@@ -131,11 +133,12 @@ def get_feed(page_id, pages=10):
     for post_dict in data:
         post_dict['pic'] = get_picture(post_dict['id'], dir='output')
         post_dict['link'] = get_link(post_dict['id'])
+
         try :  #Events and shared post have story key
             if "event" in post_dict['story'] :
-                post_dict['message'] =   None ######
+                post_dict['message'] =   get_event(post_dict['id'])
             elif "shared" in post_dict['story'] :
-                post_dict['message'] = '<b>' + post_dict['story'] + '</b>' + '\n\n' + get_shared_post(post_dict['id']) ######
+               post_dict['message'] = '<b>' + post_dict['story'] + '</b>' + '\n\n' + get_shared_post(post_dict['id']) 
         except KeyError :
             pass
 
@@ -188,15 +191,16 @@ def get_aggregated_feed(pages):
 
 if __name__ == "__main__":
     # Great thanks to https://gist.github.com/abelsonlive/4212647
-    news_pages = [('The Scholar\'s Avenue', 'scholarsavenue'),
-                  ('Awaaz IIT Kharagpur', 'awaaziitkgp'),
-                  ('Technology Students Gymkhana', 'TSG.IITKharagpur'),
-                  ('Technology IIT KGP', 'iitkgp.tech')]
+    # news_pages = [('The Scholar\'s Avenue', 'scholarsavenue'),
+    #               ('Awaaz IIT Kharagpur', 'awaaziitkgp'),
+    #               ('Technology Students Gymkhana', 'TSG.IITKharagpur'),
+    #               ('Technology IIT KGP', 'iitkgp.tech')  ]
+    news_pages = [('Test') , '984018011717208']
     for_later = ['Cultural-IIT-Kharagpur']
 
     data = get_aggregated_feed(news_pages)
     data = remove_duplicates(data)
-   # data = prettify_date(data)
+    data = prettify_date(data)
 
     json.dump(data, open('output/feed.json', 'w'))
     write_html(data, 'output/index.html')
