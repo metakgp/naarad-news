@@ -4,7 +4,8 @@ import re
 import json
 from dateutil.parser import parse
 import string
-import datetime
+from datetime import datetime
+import pytz
 
 import facepy
 from facepy import GraphAPI
@@ -60,8 +61,6 @@ def get_link(post_id):
 
     return link
 
-def utc_to_time(naive, timezone="Asia/Colombo"):
-    return naive.replace(tzinfo=pytz.utc).astimezone(pytz.timezone(timezone))
 
 def get_feed(page_id, pages=10):
     # check last update time
@@ -140,17 +139,19 @@ def remove_duplicates(data):
 
     return uniq_data        
 
+def utc_to_time(naive, timezone="Asia/Colombo"):
+    return naive.replace(tzinfo=pytz.utc).astimezone(pytz.timezone(timezone))
+
 def prettify_date(data):
-
-    for i in range(0,len(data)):
-      date = data[i]['created_time'] 
-      p1 = string.split(date,"T")[0]
-      p2 = string.split(string.split(date,"T")[1],"+")[0]
-      date = parse(p1 + " " + p2)
-      date = utc_to_time(date,"Asia/Colombo")
-      data[i]['created_time'] = date.strftime("%d-%m-%Y %H:%M:%S")
-
-    return data    
+  for i in range(0,len(data)):
+    date = data[i]['created_time'] 
+    p1 = string.split(date,"T")[0]
+    p2 = string.split(string.split(date,"T")[1],"+")[0]
+    date = parse(p1 + " " + p2)
+    date = utc_to_time(date,"Asia/Colombo")
+    time = datetime.strptime(date.strftime("%H%M"), '%H%M').strftime('%I:%M%p').upper()
+    data[i]['created_time'] = date.strftime("%d-%m-%Y ") + time
+  return data    
 
 def get_aggregated_feed(pages):
     """
