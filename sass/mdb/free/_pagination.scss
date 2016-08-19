@@ -1,0 +1,54 @@
+/*********************
+  Pagination
+**********************/
+
+.pagination {
+    li {
+        float: left;
+        font-size: 1.2rem;
+        line-height: 30px;
+        border-radius: 2px;
+        text-align: center;
+        .active {
+            background-color: #ee6e73;
+        }
+        a {
+            border: 0;
+            color: #444;
+        }
+        a:active {
+            color: #000;
+        }
+        a:hover {
+            background-color: transparent;
+        }
+    }
+}
+
+.pagination-dark {
+    li {
+        float: left;
+        font-size: 1.2rem;
+        line-height: 30px;
+        border-radius: 2px;
+        text-align: center;
+        .active {
+            background-color: #ee6e73;
+        }
+        a {
+            border: 0;
+            color: #eee;
+            background-color: transparent;
+        }
+        a:active {
+            color: #000;
+        }
+        a:hover {
+            background-color: transparent;
+        }
+    }
+}
+
+.pag-circle .active a {
+    border-radius: 50%;
+}
