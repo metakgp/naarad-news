@@ -150,8 +150,8 @@ def prettify_date(data):
     date = parse(p1 + " " + p2)
     date = utc_to_time(date,"Asia/Colombo")
     time = datetime.strptime(date.strftime("%H%M"), '%H%M').strftime('%I:%M%p').upper()
-    data[i]['created_date'] = date.strftime("%d-%m-%Y ") 
-    data[i]['created_time'] = time
+    data[i]['real_date'] = date.strftime("%d-%m-%Y ") 
+    data[i]['real_time'] = time
   return data    
 
 def get_aggregated_feed(pages):
