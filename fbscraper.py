@@ -59,6 +59,16 @@ def get_link(post_id):
         return None
 
     return link
+def get_event(post_id) :
+    base_query = None
+
+
+def get_shared_post(post_id) :
+    base_query = post_id + '?fields=parent_id'
+    parent_id = graph.get(base_query)['parent_id']  #getting if of the original post
+    query = parent_id + '?fields=message'
+    original_message = graph.get(query)['message']
+    return original_message
 
 def utc_to_time(naive, timezone="Asia/Colombo"):
     return naive.replace(tzinfo=pytz.utc).astimezone(pytz.timezone(timezone))
@@ -121,6 +131,13 @@ def get_feed(page_id, pages=10):
     for post_dict in data:
         post_dict['pic'] = get_picture(post_dict['id'], dir='output')
         post_dict['link'] = get_link(post_dict['id'])
+        try :  #Events and shared post have story key
+            if "event" in post_dict['story'] :
+                post_dict['message'] =   None ######
+            elif "shared" in post_dict['story'] :
+                post_dict['message'] = '<b>' + post_dict['story'] + '</b>' + '\n\n' + get_shared_post(post_dict['id']) ######
+        except KeyError :
+            pass
 
     data.extend(old_data)
 
@@ -179,7 +196,7 @@ if __name__ == "__main__":
 
     data = get_aggregated_feed(news_pages)
     data = remove_duplicates(data)
-    data = prettify_date(data)
+   # data = prettify_date(data)
 
     json.dump(data, open('output/feed.json', 'w'))
     write_html(data, 'output/index.html')
