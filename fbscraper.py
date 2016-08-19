@@ -64,7 +64,8 @@ def get_event(post_id) :
     event_id = post_id.split('_')[1]  #getting only the event id from the post id
     base_query = event_id
     event_dict = graph.get(base_query)
-    message = "<b>%s : </b>\n%s\n\nThe event will take place from %s to %s at <b>%s</b>" , (event_dict['name'] , event_dict['description'] ,event_dict['start_time'] ,event_dict['end_time'] ,event_dict['place']['name'] )
+    DateTime = prettify_date([{'created_time': event_dict['start_time']}])
+    message = "%s \nDate : %s\nTime : %s\nVenue : %s "  %  (event_dict['description'] ,DateTime[0]['real_time']  , DateTime[0]['real_date']  , event_dict['place']['name'])
     return message
 def get_shared_post(post_id) :
     base_query = post_id + '?fields=parent_id'
@@ -164,9 +165,9 @@ def utc_to_time(naive, timezone="Asia/Colombo"):
 
 def prettify_date(data):
   for i in range(0,len(data)):
-    date = data[i]['created_time'] 
-    p1 = string.split(date,"T")[0]
-    p2 = string.split(string.split(date,"T")[1],"+")[0]
+    date = data[i]['created_time']
+    p1 = date.split("T")[0]
+    p2 = date.split("T")[1].split("+")[0]
     date = parse(p1 + " " + p2)
     date = utc_to_time(date,"Asia/Colombo")
     time = datetime.strptime(date.strftime("%H%M"), '%H%M').strftime('%I:%M%p').upper()
@@ -193,7 +194,7 @@ def get_aggregated_feed(pages):
 
 if __name__ == "__main__":
     # Great thanks to https://gist.github.com/abelsonlive/4212647
-     news_pages = [('The Scholar\'s Avenue', 'scholarsavenue'),
+    news_pages = [('The Scholar\'s Avenue', 'scholarsavenue'),
                    ('Awaaz IIT Kharagpur', 'awaaziitkgp'),
                    ('Technology Students Gymkhana', 'TSG.IITKharagpur'),
                    ('Technology IIT KGP', 'iitkgp.tech')  ]
@@ -201,9 +202,7 @@ if __name__ == "__main__":
 
     data = get_aggregated_feed(news_pages)
     data = remove_duplicates(data)
-    try :
-        data = prettify_date(data)
-    except AttributeError :
-        pass 
+    data = prettify_date(data)
+
     json.dump(data, open('output/feed.json', 'w'))
     write_html(data, 'output/index.html')
