@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# python fbscraper.py
-# python frontend.py
+python fbscraper.py
+python frontend.py
 
 # Commit changes
 echo "commiting.."
