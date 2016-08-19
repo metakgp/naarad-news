@@ -3,6 +3,8 @@ from __future__ import print_function
 import re
 import json
 from dateutil.parser import parse
+import string
+import datetime
 
 import facepy
 from facepy import GraphAPI
@@ -58,6 +60,10 @@ def get_link(post_id):
 
     return link
 
+def time_to_utc(t):
+    dt = datetime.datetime.combine(datetime.date.today(), t)
+    utc_dt = datetime_to_utc(dt)
+    return utc_dt.time()
 
 def get_feed(page_id, pages=10):
     # check last update time
@@ -66,7 +72,7 @@ def get_feed(page_id, pages=10):
         last_post_time = parse(old_data[0]['created_time'])
     except FileNotFoundError:
         old_data = []
-        last_post_time = parse("1000-01-01T12:05:06+0000")
+        last_post_time = parse("1950-01-01T12:05:06+0000")
 
     base_query = page_id + '/feed?limit=2'
 
@@ -121,6 +127,14 @@ def get_feed(page_id, pages=10):
     data.extend(old_data)
 
     data.sort(key=lambda x: parse(x['created_time']), reverse=True)
+
+    for post_dict in data:
+        date = post_dict['created_time'] 
+        p1 = string.split(date,"T")[0]
+        p2 = string.split(string.split(date,"T")[1],"+")[0]
+        date = parse(p1 + " " + p2)
+        date = utc_to_time(date,"Asia/Colombo")
+        post_dict['created_time'] = date.strftime("%d-%m-%Y %H:%M:%S")
 
     json.dump(data, open('output/{}.json'.format(page_id), 'w'))
 
