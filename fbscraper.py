@@ -191,11 +191,10 @@ def get_aggregated_feed(pages):
 
 if __name__ == "__main__":
     # Great thanks to https://gist.github.com/abelsonlive/4212647
-    # news_pages = [('The Scholar\'s Avenue', 'scholarsavenue'),
-    #               ('Awaaz IIT Kharagpur', 'awaaziitkgp'),
-    #               ('Technology Students Gymkhana', 'TSG.IITKharagpur'),
-    #               ('Technology IIT KGP', 'iitkgp.tech')  ]
-    news_pages = [('Test') , '984018011717208']
+     news_pages = [('The Scholar\'s Avenue', 'scholarsavenue'),
+                   ('Awaaz IIT Kharagpur', 'awaaziitkgp'),
+                   ('Technology Students Gymkhana', 'TSG.IITKharagpur'),
+                   ('Technology IIT KGP', 'iitkgp.tech')  ]
     for_later = ['Cultural-IIT-Kharagpur']
 
     data = get_aggregated_feed(news_pages)
