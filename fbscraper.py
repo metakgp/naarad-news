@@ -60,10 +60,8 @@ def get_link(post_id):
 
     return link
 
-def time_to_utc(t):
-    dt = datetime.datetime.combine(datetime.date.today(), t)
-    utc_dt = datetime_to_utc(dt)
-    return utc_dt.time()
+def utc_to_time(naive, timezone="Asia/Colombo"):
+    return naive.replace(tzinfo=pytz.utc).astimezone(pytz.timezone(timezone))
 
 def get_feed(page_id, pages=10):
     # check last update time
@@ -128,14 +126,6 @@ def get_feed(page_id, pages=10):
 
     data.sort(key=lambda x: parse(x['created_time']), reverse=True)
 
-    for post_dict in data:
-        date = post_dict['created_time'] 
-        p1 = string.split(date,"T")[0]
-        p2 = string.split(string.split(date,"T")[1],"+")[0]
-        date = parse(p1 + " " + p2)
-        date = utc_to_time(date,"Asia/Colombo")
-        post_dict['created_time'] = date.strftime("%d-%m-%Y %H:%M:%S")
-
     json.dump(data, open('output/{}.json'.format(page_id), 'w'))
 
     return data
@@ -150,6 +140,17 @@ def remove_duplicates(data):
 
     return uniq_data        
 
+def prettify_date(data):
+
+    for i in range(0,len(data)):
+      date = data[i]['created_time'] 
+      p1 = string.split(date,"T")[0]
+      p2 = string.split(string.split(date,"T")[1],"+")[0]
+      date = parse(p1 + " " + p2)
+      date = utc_to_time(date,"Asia/Colombo")
+      data[i]['created_time'] = date.strftime("%d-%m-%Y %H:%M:%S")
+
+    return data    
 
 def get_aggregated_feed(pages):
     """
@@ -178,6 +179,7 @@ if __name__ == "__main__":
 
     data = get_aggregated_feed(news_pages)
     data = remove_duplicates(data)
+    data = prettify_date(data)
 
     json.dump(data, open('output/feed.json', 'w'))
     write_html(data, 'output/index.html')
