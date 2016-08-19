@@ -181,7 +181,9 @@ if __name__ == "__main__":
 
     data = get_aggregated_feed(news_pages)
     data = remove_duplicates(data)
-    data = prettify_date(data)
-
+    try :
+        data = prettify_date(data)
+    except AttributeError :
+        pass 
     json.dump(data, open('output/feed.json', 'w'))
     write_html(data, 'output/index.html')
