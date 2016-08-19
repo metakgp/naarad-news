@@ -48,6 +48,17 @@ def get_picture(post_id, dir="."):
         return None
 
 
+def get_link(post_id):
+    base_query = post_id + '?fields=link'
+
+    try:
+        link = graph.get(base_query)['link']
+    except KeyError:
+        return None
+
+    return link
+
+
 def get_feed(page_id, pages=10):
     # check last update time
     try:
@@ -105,6 +116,7 @@ def get_feed(page_id, pages=10):
 
     for post_dict in data:
         post_dict['pic'] = get_picture(post_dict['id'], dir='output')
+        post_dict['link'] = get_link(post_dict['id'])
 
     data.extend(old_data)
 
