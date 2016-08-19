@@ -64,7 +64,8 @@ def get_event(post_id) :
     event_id = post_id.split('_')[1]  #getting only the event id from the post id
     base_query = event_id
     event_dict = graph.get(base_query)
-    message = "<b>%s : </b>\n%s\n\nThe event will take place from %s to %s at <b>%s</b>" , (event_dict['name'] , event_dict['description'] ,event_dict['start_time'] ,event_dict['end_time'] ,event_dict['place']['name'] )
+    DateTime = prettify_date([{'created_time': event_dict['start_time']}])
+    message = "%s \nDate : %s\nTime : %s\nVenue : %s "  %  (event_dict['description'] ,DateTime[0]['real_time']  , DateTime[0]['real_date']  , event_dict['place']['name'])
     return message
 def get_shared_post(post_id) :
     base_query = post_id + '?fields=parent_id'
