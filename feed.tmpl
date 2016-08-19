@@ -1,26 +1,66 @@
 <html>
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700' rel='stylesheet' type='text/css'>
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/font-awesome.min.css" rel="stylesheet">
-  <link href="css/templatemo-style.css" rel="stylesheet">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-    <title>KGP Trends </title>
-        {% for post in data %}
-           <div class="about-container">
-             <div class="about-container-left">
-                 {% if post['pic'] %}
-                    <img class="img-responsive" src="{{ post['pic'] }}">
-                 {% endif %}
-             </div>
-              <div class="about-container-right">
-                <h2 class="about-title"> {{post['source'] }} </h2>
-                <p class="about-description"> <b>Posted on: {{ post['created_time'] }}</b></p>
-                <p class="about-description" > {{ post['message'] }} {{post['link']}} </p>
+
+    <!-- START INCLUDING CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/mdb.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+    <!-- END INCLUDING CSS -->
+
+    <title> KGP Trends </title>
+    <body>
+      <div class="container">
+        <div class="col-sm-12">
+          <div class="divider-new">NAARAD</div>
+          {% for post in data %}
+            <div class="row">         
+              <div class="col-md-12 col-sm-12 wow bounceInUp" style="visibility: visible; animation-name: bounceInUp;">
+                <div class="elegant-card border-black z-depth-1">
+                  {% if post['pic'] %}
+                    <div class="col-md-4">
+                      <div class="card-up view overlay hm-white-slight">
+                        <img class="responsive-img lazy" src="{{ post['pic'] }}">
+                      </div>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-content">
+                        <h5>{{post['source'] }}</h5>
+                        <p>{{ post['message'] }}</p>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="col-md-12">
+                      <div class="card-content">
+                        <h5>{{post['source'] }}</h5>
+                        <p>{{ post['message'] }}</p>
+                      </div>
+                    </div>
+                  {% endif %}
+                  <div class="col-md-12">
+                    <div class="card-footer">
+                      <ul class="list-inline">
+                        <li class="left col-md-4"><i class="fa fa-clock-o"></i>Posted at {{ post['created_time'] }}</li>
+                        <li class="right col-md-4 col-md-offset-4"><a href="https://www.facebook.com/{{ post['id'] }}" target="_blank"><i class="fa fa-facebook"></i> View the post</a></li>
+                      </ul>
+                    </div>
+                  </div>
+               </div>
               </div>
             </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+      </div>   
+    </body>
 
+    <!-- START INCLUDING JS SCRIPTS -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/mdb.js"></script>
+    <script type="text/javascript" src="js/wow.js"></script>
+    <script type="text/javascript" src="js/custom.js"></script>
+    <!-- END INCLUDING JS SCRIPTS --> 
 </html>
+

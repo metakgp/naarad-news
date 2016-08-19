@@ -1,0 +1,237 @@
+/*********************
+  General classes
+**********************/
+
+body {
+    font-family: Roboto, sans-serif;
+    overflow: auto !important;
+}
+
+// Badges
+span.badge-md {
+    min-width: 3rem;
+    padding: 0 6px;
+    text-align: center;
+    font-size: 1rem;
+    line-height: inherit;
+    color: color('grey', 'darken-1');
+    position: absolute;
+    right: 15px;
+    @include box-sizing(border-box);
+    &.new {
+        font-weight: 300;
+        font-size: 0.8rem;
+        color: #fff;
+        background-color: $badge-bg-color;
+        border-radius: 2px;
+    }
+    &.new:after {
+        content: " new";
+    }
+}
+
+a {
+    color: $link-color;
+    text-decoration: none;
+    cursor: pointer;
+    // Gets rid of tap active state
+    -webkit-tap-highlight-color: transparent;
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+}
+
+ul {
+    padding: 0;
+    list-style-type: none;
+    li {
+        list-style-type: none;
+    }
+}
+
+// Icon Styles
+i {
+    line-height: inherit;
+    &.left {
+        float: left;
+        margin-right: 10px;
+    }
+    &.right {
+        float: right;
+        margin-left: 10px;
+    }
+    &.tiny {
+        font-size: 1rem;
+    }
+    &.small {
+        font-size: 2rem;
+    }
+    &.medium {
+        font-size: 4rem;
+    }
+    &.large {
+        font-size: 6rem;
+    }
+}
+
+// Collections
+.collection {
+    margin: $element-top-margin 0 $element-bottom-margin 0;
+    border: 1px solid $collection-border-color;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    .collection-item {
+        background-color: $collection-bg-color;
+        line-height: 1.5rem;
+        padding: 10px 20px;
+        margin: 0;
+        border-bottom: 1px solid $collection-border-color;
+        // Avatar Collection
+        &.avatar {
+            min-height: 84px;
+            padding-left: 72px;
+            position: relative;
+            .circle {
+                position: absolute;
+                width: 42px;
+                height: 42px;
+                overflow: hidden;
+                left: 15px;
+                display: inline-block;
+                vertical-align: middle;
+            }
+            i.circle {
+                font-size: 18px;
+                line-height: 42px;
+                color: #fff;
+                background-color: #999;
+                text-align: center;
+            }
+            .title {
+                font-size: 16px;
+            }
+            p {
+                margin: 0;
+            }
+            .secondary-content {
+                position: absolute;
+                top: 16px;
+                right: 16px;
+            }
+        }
+        &:last-child {
+            border-bottom: none;
+        }
+        &.active {
+            background-color: $collection-active-bg-color;
+            color: $collection-active-color;
+        }
+    }
+    a.collection-item {
+        display: block;
+        @include transition(.25s);
+        color: $primary-color;
+        &:not(.active) {
+            &:hover {
+                background-color: $collection-hover-bg-color;
+            }
+        }
+    }
+    &.with-header {
+        .collection-header {
+            background-color: $collection-bg-color;
+            border-bottom: 1px solid $collection-border-color;
+            padding: 10px 20px;
+        }
+        .collection-item {
+            padding-left: 30px;
+        }
+        .collection-item.avatar {
+            padding-left: 72px;
+        }
+    }
+}
+
+// Made less specific to allow easier overriding
+.secondary-content {
+    float: right;
+    color: $primary-color;
+}
+// Labels
+
+.label {
+    border-radius: 0;
+}
+
+// Footer 
+footer.page-footer {
+    margin-top: 3em;  
+    font-weight: 300;
+    .link-section {
+        padding-bottom: 20px;
+    }
+    .footer-content {
+        padding: 2em;
+    }
+    .footer-copyright {
+        overflow: hidden;
+        height: 50px;
+        line-height: 50px;
+        color: rgba(255, 255, 255, .8);
+    }
+    .column-title {
+        text-transform: uppercase;
+        margin-top: 15px;
+    }
+    a {
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 40px;
+        color: #fff;
+    }
+    .social-section {
+        padding-top: 15px;
+        padding-bottom: 15px;
+        text-align: center;
+    }
+    .call-to-action {
+        text-align: center;
+        padding-bottom: 1.5rem;
+        padding-top: 1.5rem;
+        ul {
+            margin-bottom: 0;
+        }
+    }
+    .bordered {
+        border-bottom: 1px solid $rgba-grey-strong;
+    }
+    .padd-bott {
+        padding-bottom: 30px;
+    }
+    .pad-top {
+        padding-top: 30px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    footer.page-footer {
+        .column-title {
+            margin-top: 2em;
+        }
+    }
+} 
+
+// Modal  
+.modal-content {
+    border-radius: 2px;
+}
+/**
+ * Shifting bacground fix
+ */
+body.modal-open {
+  overflow: inherit;
+  padding-right: 0 !important;
+}
+
