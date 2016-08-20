@@ -155,7 +155,11 @@ def get_feed(page_id, pages=10):
 
 def remove_duplicates(data):
     
-    uniq_data = []
+    try:
+        uniq_data = json.load(open('output/feed.json', 'r'))
+    except FileNotFoundError:
+        uniq_data = []
+
     for i in range(0,len(data)):
         if data[i] not in uniq_data:
             uniq_data.append(data[i])
