@@ -62,10 +62,13 @@ def get_link(post_id):
     return link
 def get_event(post_id) :
     event_id = post_id.split('_')[1]  #getting only the event id from the post id
-    base_query = event_id
+    base_query = event_id + '/'
     event_dict = graph.get(base_query)
     DateTime = prettify_date([{'created_time': event_dict['start_time']}])
-    message = "%s \nDate : %s\nTime : %s\nVenue : %s "  %  (event_dict['description'] ,DateTime[0]['real_time']  , DateTime[0]['real_date']  , event_dict['place']['name'])
+    if 'description' in event_dict.keys() :  #checking if the event have description 
+    	message = "%s \nDate : %s\nTime : %s\nVenue : %s "  %  (event_dict['description'] ,DateTime[0]['real_time']  , DateTime[0]['real_date']  , event_dict['place']['name'])
+    else :
+    	message = "%s \nDate : %s\nTime : %s\nVenue : %s "  %  (event_dict['name'] ,DateTime[0]['real_time']  , DateTime[0]['real_date']  , event_dict['place']['name']) 
     return message
 def get_shared_post(post_id) :
     base_query = post_id + '?fields=parent_id'
@@ -133,12 +136,11 @@ def get_feed(page_id, pages=10):
     for post_dict in data:
         post_dict['pic'] = get_picture(post_dict['id'], dir='output')
         post_dict['link'] = get_link(post_dict['id'])
-
         try :  #Events and shared post have story key
             if "event" in post_dict['story'] :
-                post_dict['message'] =   get_event(post_dict['id'])
+            	post_dict['message'] = get_event(post_dict['id'])
             elif "shared" in post_dict['story'] :
-               post_dict['message'] = '<b>' + post_dict['story'] + '</b>' + '\n\n' + get_shared_post(post_dict['id']) 
+                post_dict['message'] = '<b>' + post_dict['story'] + '</b>' + '\n\n' + get_shared_post(post_dict['id']) 
         except KeyError :
             pass
 
