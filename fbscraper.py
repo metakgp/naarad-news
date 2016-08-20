@@ -68,7 +68,7 @@ def get_event(post_id) :
     if 'description' in event_dict.keys() :  #checking if the event have description 
     	message = "%s \nDate : %s\nTime : %s\nVenue : %s "  %  (event_dict['description'] ,DateTime[0]['real_time']  , DateTime[0]['real_date']  , event_dict['place']['name'])
     else :
-    	message = "%s \nDate : %s\nTime : %s\nVenue : %s "  %  (event_dict['name'] ,DateTime[0]['real_time']  , DateTime[0]['real_date']  , event_dict['place']['name']) 
+    	message = "%s \nDate : %s\nTime : %s\nVenue : %s "  %  (event_dict['name'] ,DateTime[0]['real_date']  , DateTime[0]['real_time']  , event_dict['place']['name']) 
     return message
 def get_shared_post(post_id) :
     base_query = post_id + '?fields=parent_id'
