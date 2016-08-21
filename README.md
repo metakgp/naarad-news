@@ -19,7 +19,8 @@ api.
     files well. Pull Request is in process.
     * Clone https://github.com/hargup/facepy
     * Change into the directory and do `pip install -e .`
-* Run `deploy.sh` to push the changes to `gh-pages`. `deploy.sh` runs
+* Run `deploy.sh` to push the changes to `master`. The website is generated
+    through the `docs/` directory. `deploy.sh` runs
     `fbscrapper.py` which creates json files containing feeds, and then runs
     `frontend.py` which converts the json feed into into nice html according to
     a template specified in `feed.tmpl`.
