@@ -60,6 +60,8 @@ def get_link(post_id):
         return None
 
     return link
+
+
 def get_event(post_id) :
     event_id = post_id.split('_')[1]  #getting only the event id from the post id
     base_query = event_id + '/'
@@ -70,6 +72,8 @@ def get_event(post_id) :
     else :
     	message = "%s \nDate : %s\nTime : %s\nVenue : %s "  %  (event_dict['name'] ,DateTime[0]['real_date']  , DateTime[0]['real_time']  , event_dict['place']['name']) 
     return message
+
+
 def get_shared_post(post_id) :
     base_query = post_id + '?fields=parent_id'
     parent_id = graph.get(base_query)['parent_id']  #getting if of the original post
@@ -81,7 +85,7 @@ def get_shared_post(post_id) :
 def get_feed(page_id, pages=10):
     # check last update time
     try:
-        old_data = json.load(open('output/{}.json'.format(page_id), 'r'))
+        old_data = json.load(open('docs/{}.json'.format(page_id), 'r'))
         last_post_time = parse(old_data[0]['created_time'])
     except FileNotFoundError:
         old_data = []
@@ -134,7 +138,7 @@ def get_feed(page_id, pages=10):
         pages = pages - 1
 
     for post_dict in data:
-        post_dict['pic'] = get_picture(post_dict['id'], dir='output')
+        post_dict['pic'] = get_picture(post_dict['id'], dir='docs')
         post_dict['link'] = get_link(post_dict['id'])
         try :  #Events and shared post have story key
             if "event" in post_dict['story'] :
@@ -145,18 +149,16 @@ def get_feed(page_id, pages=10):
             pass
 
     data.extend(old_data)
-
     data.sort(key=lambda x: parse(x['created_time']), reverse=True)
 
-    json.dump(data, open('output/{}.json'.format(page_id), 'w'))
+    json.dump(data, open('docs/{}.json'.format(page_id), 'w'))
 
     return data
 
 
 def remove_duplicates(data):
-    
     try:
-        uniq_data = json.load(open('output/feed.json', 'r'))
+        uniq_data = json.load(open('docs/feed.json', 'r'))
     except FileNotFoundError:
         uniq_data = []
 
@@ -166,8 +168,10 @@ def remove_duplicates(data):
 
     return uniq_data        
 
+
 def utc_to_time(naive, timezone="Asia/Colombo"):
     return naive.replace(tzinfo=pytz.utc).astimezone(pytz.timezone(timezone))
+
 
 def prettify_date(data):
   for i in range(0,len(data)):
@@ -180,6 +184,7 @@ def prettify_date(data):
     data[i]['real_date'] = date.strftime("%d-%m-%Y ") 
     data[i]['real_time'] = time
   return data    
+
 
 def get_aggregated_feed(pages):
     """
@@ -198,6 +203,7 @@ def get_aggregated_feed(pages):
     data.sort(key=lambda x: parse(x['created_time']), reverse=True)
     return data
 
+
 if __name__ == "__main__":
     # Great thanks to https://gist.github.com/abelsonlive/4212647
     news_pages = [('The Scholar\'s Avenue', 'scholarsavenue'),
@@ -210,5 +216,5 @@ if __name__ == "__main__":
     data = remove_duplicates(data)
     data = prettify_date(data)
 
-    json.dump(data, open('output/feed.json', 'w'))
-    write_html(data, 'output/index.html')
+    json.dump(data, open('docs/feed.json', 'w'))
+    write_html(data, 'docs/index.html')

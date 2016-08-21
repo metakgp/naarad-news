@@ -1,0 +1,202 @@
+/*********************
+  Buttons
+**********************/
+
+// Transparen flat button
+.btn-flat {
+    background-color: transparent;
+    position: relative;
+    padding: 8px 30px;
+    border: none;
+    margin: 10px;
+    text-transform: uppercase;
+    text-decoration: none;
+    outline: none !important;
+    &:focus {
+        background-color: transparent;
+    }
+}
+
+//General button styles
+.btn {
+    line-height: $button-line-height;
+    position: relative;
+    padding: 5px 22px;
+    border: 0;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    outline: none !important;
+    @extend .z-depth-1;
+    @include transition(.2s ease-out);
+    &:hover {
+        @extend .z-depth-1-half;
+    }
+    &.btn-block {
+        margin: 10px 0;
+    }
+}
+
+// Shared icon styles
+.btn,
+.btn-flat {
+    i {
+        font-size: $button-font-size-shared;
+        line-height: inherit;
+    }
+}
+
+.open > .dropdown-toggle.btn {
+    //.variations(#{""}, background-color, $btn-default);
+}
+
+// Floating button
+.btn-floating {
+    display: inline-block;
+    color: $button-color-raised;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    width: $button-floating-size;
+    height: $button-floating-size;
+    line-height: $button-floating-size;
+    padding: 0;
+    background-color: $button-color;
+    border-radius: 50%;
+    @extend .z-depth-1;
+    transition: .3s;
+    cursor: pointer;
+    vertical-align: middle;
+    margin: 10px;
+    i {
+        width: inherit;
+        display: inline-block;
+        text-align: center;
+        color: $button-color-raised;
+        font-size: $button-large-icon-font-size;
+        line-height: $button-floating-size;
+    }
+    &:hover {
+        @extend .z-depth-1-half;
+    }
+    &:before {
+        border-radius: 0;
+    }
+    &.btn-large {
+        width: $button-floating-size * 1.5;
+        height: $button-floating-size * 1.5;
+        i {
+            line-height: $button-floating-size * 1.5;
+        }
+    }
+    &.btn-small {
+        height: 47px;
+        width: 47px;
+        line-height: 0;
+        .fa, .material-icons {  
+            font-size: 18px;
+            margin-top: 5px;
+        }
+    }
+}
+
+// button fix
+button.btn-floating {
+    border: none;
+}
+
+.btn .badge {
+margin-left: 7px;
+    
+}
+
+// Alert buttons
+// --------------------------------------------------
+.btn-default {
+    color: #fff;
+    background: $default-color;
+    &:hover,
+    &:focus {
+        background-color: lighten( $default-color, 5%)!important;
+        color: #fff!important;
+    }
+}
+
+.btn-primary {
+    background: $primary-color;
+    &:hover,
+    &:focus {
+        background-color: lighten( $primary-color, 5%)!important;
+        color: #fff;
+    }
+}
+
+.btn-success {
+    background: $success-color;
+    &:hover,
+    &:focus {
+        background-color: lighten( $success-color, 2%)!important;
+        color: #fff;
+    }
+}
+
+.btn-info {
+    background: $info-color;
+    &:hover,
+    &:focus {
+        background-color: lighten( $info-color, 5%)!important;
+        color: #fff;
+    }
+}
+
+.btn-warning {
+    background: $warning-color-dark;
+    &:hover,
+    &:focus {
+        background-color: lighten( $warning-color-dark, 6%)!important;
+        color: #fff;
+    }
+}
+
+.btn-danger {
+    background: $danger-color-dark;
+    &:hover,
+    &:focus {
+        background-color: lighten( $danger-color-dark, 3%)!important;
+        color: #fff;
+    }
+}
+
+.btn-link {
+    background-color: transparent;
+    color: #000;
+    &:hover {
+        background-color: transparent;
+    }
+    &:focus {
+        background-color: transparent;
+    }
+}
+
+// Button Sizes
+// --------------------------------------------------
+.btn-xlg {
+    // line-height: ensure even-numbered height of button next to large input
+    @include button-size($padding-xlarge-vertical, $padding-xlarge-horizontal, $font-size-xlarge, $line-height-large);
+}
+
+.btn-lg {
+    // line-height: ensure even-numbered height of button next to large input
+    @include button-size($padding-large-vertical, $padding-large-horizontal, $font-size-large, $line-height-large);
+}
+
+.btn-sm {
+    // line-height: ensure proper height of button next to small input
+    @include button-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small);
+}
+
+.btn-xs {
+    @include button-size($padding-xs-vertical, $padding-xs-horizontal, $font-size-small, $line-height-small);
+}

@@ -25,6 +25,6 @@ def write_html(data, file_name):
 
 
 if __name__ == "__main__":
-    data = json.load(open('output/feed.json', 'r'))
+    data = json.load(open('docs/feed.json', 'r'))
 
-    write_html(data, 'output/index.html')
+    write_html(data, 'docs/index.html')
