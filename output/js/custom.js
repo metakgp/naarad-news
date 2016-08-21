@@ -11,12 +11,6 @@ offset: 100
 }
 );
 wow.init();
-$(".lazy").lazy({
-effect: 'fadeIn'
-});
-$('.carousel').carousel({
-  interval: 1000 * 3
-});  
 $(".navbar-nav li a").click(function(event) {
 $(".navbar-collapse").collapse('hide');
 });
