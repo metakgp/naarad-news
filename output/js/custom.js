@@ -90,6 +90,7 @@ jQuery('html, body').animate({scrollTop: 0}, duration);
 return false;
 })
 });
+
 var fuse;
 var nextQuery = null;
 var processing = false;
