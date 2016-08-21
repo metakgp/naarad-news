@@ -92,7 +92,7 @@ var currentQuery = null;
 
 $(function() {
 
- $('#query').focus();
+ // $('#query').focus();
 
  var worker = new Worker('js/worker2.js');
 
