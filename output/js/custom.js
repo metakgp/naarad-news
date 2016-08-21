@@ -117,8 +117,6 @@ $(function() {
 
  function displayResults(results) {
     var html = ''
-    var start = '<section>'
-    var end = '</section>'
     var part1 = ''
     var part2 = ''
     var part3 = ''
@@ -134,18 +132,17 @@ $(function() {
         part3 = '<div class="col-md-12 col-sm-12"><div class="card-footer"><ul class="list-inline"><li><a href="https://www.facebook.com/'+results[i].id+'" target="_blank"><i class="fa fa-facebook"></i> View the post</a></li></ul></div></div></div>';            
         html += (part1 + part2 + part3);
     }
-    html = start + html + end;
     $('#result-div').html(html);
     $('#all-div').addClass('hidden');
 
  }
 
  var search = _.debounce(function() {
-     $('.all-div').addClass('hidden');
+     $('#all-div').addClass('hidden');
      var query = $('#query').val().trim();
      if (query === '') {
-         $('.result-div').html('');
-         $('.all-div').removeClass('hidden');
+         $('#result-div').html('');
+         $('#all-div').removeClass('hidden');
          return;
      }
      if (processing) {
