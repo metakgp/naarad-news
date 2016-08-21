@@ -1,84 +1,136 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="shortcut icon" href="favicon.ico?v=1" />
+    <title> KGP Trends - Naarad | Metakgp </title>
+
+    <!-- START INCLUDING META TAGS -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="subject" content="Team VR - Academic Research Group of IIT Kharagpur , India working on Virtual Reality." >
+    <meta name="description" content="Team VR is a Virtual Reality Research Group of IIT Kharagpur , India." >
+    <meta name="author" content="Athitya Kumar , athityakumar@gmail.com">
+    <meta name="classification" content="Academic Research Group">
+    <meta name="news_keywords" content="IIT Kharagpur, Virtual Reality, Academic Research Group , India.">
+    <meta http-equiv="refresh">
+    <!-- END INCLUDING META TAGS -->
 
     <!-- START INCLUDING CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/mdb.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
     <!-- END INCLUDING CSS -->
 
-    <link rel="shortcut icon" href="favicon.ico?v=1" />
-    <title> KGP Trends - Naarad | Metakgp </title>
+  </head>
+  <body>
 
-    <body>
-      <div class="container">
-        <div class="col-sm-12">
-          <div class="divider-new">NAARAD <span style="margin-top: 40px; font-size: 14px;"> by <a href="metakgp.github.io" target="_blank">Metakgp<br><span style="margin-left: 15px;">( <a href="https://wiki.metakgp.org/w/Main_Page" target="_blank"><i class="fa fa-wikipedia-w" style="font-size: 16px;"></i></a> | <a href="https://github.com/metakgp" target="_blank"><i class="fa fa-github" style="font-size: 16px;"></i></a> )</span></span></div>          
-          <div class="query-div">
-            <div class="left-pull col-md-8 col-sm-12">
-              <p style="text-align: center; font-size: 16px; padding: 5px;"> Naarad is a aggregator of popular KGP-ian facebook groups. All KGP notfications, at one place. </p>  
-            </div>
-            <div class="right-pull col-md-4 col-sm-12">          
-              <input type="text" id="query" placeholder="Search for particular posts..."></input>
-            </div>
-          </div>
+    <!-- START PRELOADER -->
+    <div id="preloader">
+    <div id="status">
+    <!-- <h6 style="font-size: 20px;text-align: center; width: 100%;">NAARAD - The facebook posts aggregator of IIT Kharagpur</h6>
+     --><div class="row">
+    <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4 "> <img src="metakgp.jpg" width="100%"> </div>
+    </div>
+    <br><br><div class="progress">
+    <div class="indeterminate"></div>
+    </div></div>
+    </div>
+    <!-- END PRELOADER -->
 
-          <div class="result-div">                      
-          </div>
-          <div class="all-div">
-
-            {% for post in data %}
-            <div class="row">         
-              <div class="col-md-12 col-sm-12 wow bounceInUp" style="visibility: visible; animation-name: bounceInUp;">
-                <div class="elegant-card border-black z-depth-1">
+    <!-- START NAVBAR -->
+    <nav class="navbar navbar-fixed-top z-depth-1000  black" role="navigation">
+    <div class="container">
+    <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand waves-effect waves-light">&nbsp; <b>NAARAD</b></a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="max-height: 900px; max-width: 100%;">
+    <ul class="nav navbar-nav navbar-right">
+    <li><a href="https://metakgp.github.io" target="_blank" style="font-size: 17px;"><b>HOMEPAGE</b></a></li>
+    <li><a href="https://wiki.metakgp.org/w/Main_Page" target="_blank" style="font-size: 17px;"><b>WIKI</b></a></li>
+    <li><a href="https://github.com/metakgp" target="_blank" style="font-size: 17px;"><b>GITHUB</b></a></li>
+    <li style="margin-left: 10px;"><b><input type="text" id="query" placeholder="Search for facebook posts" style="width: 100%; color: white;" ></b></li>
+    </ul>
+    </div>
+    </div>
+    </nav>
+    <!-- END NAVBAR -->
+    
+    <br><br><br><br>
+    
+    <!-- START DISPLAYING POSTS -->
+    <div class="container">
+      <section id="result-div">
+        
+      </section>
+      <section id="all-div">
+        <div class="row">        
+          {% for post in data %}
+            <div class="col-md-12 col-sm-12 wow bounceInUp" style="visibility: visible; animation-name: bounceInUp;">
+              <div class="elegant-card border-black z-depth-1">
+                <div class="row">
+                  <div class="col-md-12 col-sm-12">
+                    <div class="card-footer">
+                      <ul class="list-inline">
+                        <li><i class="fa fa-clock-o"></i>Posted on {{ post['real_date'] }} at {{ post['real_time'] }}</li>
+                      </ul>
+                    </div>
+                  </div>
                   {% if post['pic'] %}
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-12">
                       <div class="card-up view overlay hm-white-slight">
                         <img class="responsive-img lazy" src="{{ post['pic'] }}">
                       </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 col-sm-12">
                       <div class="card-content">
                         <h5>{{post['source'] }}</h5>
                         <p>{{ post['message'] }}</p>
                       </div>
                     </div>
                   {% else %}
-                    <div class="col-md-12">
+                    <div class="col-md-12 col-sm-12">
                       <div class="card-content">
                         <h5>{{post['source'] }}</h5>
                         <p>{{ post['message'] }}</p>
                       </div>
                     </div>
-                  {% endif %}
-                  <div class="col-md-12">
+                  {% endif %}  
+                  <div class="col-md-12 col-sm-12">
                     <div class="card-footer">
                       <ul class="list-inline">
-                        <li class="left col-md-4"><i class="fa fa-clock-o"></i>Posted on {{ post['real_date'] }} at {{ post['real_time'] }}</li>
-                        <li class="right col-md-4 col-md-offset-4"><a href="https://www.facebook.com/{{ post['id'] }}" target="_blank"><i class="fa fa-facebook"></i> View the post</a></li>
+                        <li><a href="https://www.facebook.com/{{ post['id'] }}" target="_blank"><i class="fa fa-facebook"></i> View the post</a></li>
                       </ul>
                     </div>
                   </div>
-               </div>
+                </div>  
               </div>
-            </div>
-            {% endfor %}
-            
-          </div>
-        </div>
-      </div>   
-    </body>
+            </div>  
+            <hr class="extra-margins">
+          {% endfor %}
+        </div>  
+      </section>
+    </div>    
+  </body>   
 
-    <!-- START INCLUDING JS SCRIPTS -->
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>  
-    <script type="text/javascript" src="js/string_score.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/mdb.js"></script>
-    <script type="text/javascript" src="js/wow.js"></script>
-    <script type="text/javascript" src="js/custom.js"></script>
-    <!-- END INCLUDING JS SCRIPTS --> 
+  <!-- START INCLUDING JS SCRIPTS -->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>  
+  <script type="text/javascript" src="js/string_score.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/mdb.js"></script>
+  <script type="text/javascript" src="js/wow.js"></script>
+  <script type="text/javascript" src="js/custom.js"></script>
+  <!-- END INCLUDING JS SCRIPTS --> 
+
 </html>
