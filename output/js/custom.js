@@ -130,7 +130,7 @@ $(function() {
 
             part2 ='<div class="col-md-12"><div class="card-content"><h5>'+results[i].source+'</h5><p>'+results[i].message+'</p></div></div>';
         }
-        part3 = '<div class="col-md-12 col-sm-12"><div class="card-footer"><ul class="list-inline"><li><a href="https://www.facebook.com/{{ post['id'] }}" target="_blank"><i class="fa fa-facebook"></i> View the post</a></li></ul></div></div></div>';            
+        part3 = '<div class="col-md-12 col-sm-12"><div class="card-footer"><ul class="list-inline"><li><a href="https://www.facebook.com/'+results[i].id+'" target="_blank"><i class="fa fa-facebook"></i> View the post</a></li></ul></div></div></div>';            
         html += (part1 + part2 + part3);
     }
     html = start + html + end;
