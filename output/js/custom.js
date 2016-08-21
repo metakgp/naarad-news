@@ -120,18 +120,21 @@ $(function() {
     var part1 = ''
     var part2 = ''
     var part3 = ''
+    var start = '<div class="row">'
+    var end = '</div>'
     for (var i = 0; i < 20; ++i) {
         if (results[i].pic != "") {
-            part2 = '<div class="col-md-4"><div class="card-up view overlay hm-white-slight"><img class="responsive-img lazy" src="'+results[i].pic+'"></div></div><div class="col-md-8"><div class="card-content"><h5>'+results[i].source+'</h5><p>'+results[i].message+'</p></div></div>';
+            part2 = '<div class="col-md-4 col-sm-12"><div class="card-up view overlay hm-white-slight"><img class="responsive-img lazy" src="'+results[i].pic+'"></div></div><div class="col-md-8 col-sm-12"><div class="card-content"><h5>'+results[i].source+'</h5><p>'+results[i].message+'</p></div></div>';
         }
         else {
 
-            part2 ='<div class="col-md-12"><div class="card-content"><h5>'+results[i].source+'</h5><p>'+results[i].message+'</p></div></div>';
+            part2 ='<div class="col-md-12 col-sm-12"><div class="card-content"><h5>'+results[i].source+'</h5><p>'+results[i].message+'</p></div></div>';
         }
-        part1 = '<div class="row"><div class="col-md-12 col-sm-12 wow bounceInUp" style="visibility: visible; animation-name: bounceInUp;"><div class="elegant-card border-black z-depth-1"><div class="row"><div class="col-md-12 col-sm-12"><div class="card-footer"><ul class="list-inline"> <li><i class="fa fa-clock-o"></i>Posted on '+results[i].real_date+' at '+results[i].real_time+'</li></ul></div></div>';
-        part3 = '<div class="col-md-12 col-sm-12"><div class="card-footer"><ul class="list-inline"><li><a href="https://www.facebook.com/'+results[i].id+'" target="_blank"><i class="fa fa-facebook"></i> View the post</a></li></ul></div></div></div>';            
+        part1 = '<div class="col-md-12 col-sm-12 wow bounceInUp" style="visibility: visible; animation-name: bounceInUp;"><div class="elegant-card border-black z-depth-1"><div class="row"><div class="col-md-12 col-sm-12"><div class="card-footer"><ul class="list-inline"> <li><i class="fa fa-clock-o"></i>Posted on '+results[i].real_date+' at '+results[i].real_time+'</li></ul></div></div>';
+        part3 = '<div class="col-md-12 col-sm-12"><div class="card-footer"><ul class="list-inline"><li><a href="https://www.facebook.com/'+results[i].id+'" target="_blank"><i class="fa fa-facebook"></i> View the post</a></li></ul></div></div></div></div><hr class="extra-margins">';            
         html += (part1 + part2 + part3);
     }
+    html = (start + html + end);
     $('#result-div').html(html);
     $('#all-div').addClass('hidden');
 
