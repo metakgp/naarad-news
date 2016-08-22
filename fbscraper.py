@@ -87,8 +87,10 @@ def shortify_links(message) :
     
     max_string_length = 20
     show_string_length = 15
-    message = string.replace(message,"<"," <")
-    message = string.replace(message,">","> ")
+    if "<" in message :
+        message = message.replace("<"," <")
+    if ">" in message :
+        message = message.replace(">","> ")
     message = message.split(" ")   
     new_message = ""
     
