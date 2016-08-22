@@ -87,12 +87,14 @@ def shortify_links(message) :
     
     max_string_length = 20
     show_string_length = 15
-    message = message.split(" ")
+    message = string.replace(message,"<"," <")
+    message = string.replace(message,">","> ")
+    message = message.split(" ")   
     new_message = ""
     
     for mess in message :
         if len(mess) > max_string_length :
-            mess = ' <a href="' + mess + '" target="_blank"> ' + mess[0:show_string_length] + ' </a> '
+            mess = ' <a href="http://' + mess + '" target="_blank"> ' + mess[0:show_string_length] + '... </a> '
         new_message = new_message + mess + " "
     
     return new_message 
