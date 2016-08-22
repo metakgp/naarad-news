@@ -65,9 +65,7 @@ def get_link(post_id):
 def get_event(post_id , page_id) :
     base_query = page_id + '/events'
     all_events = graph.get(base_query)
-    #print (all_events)
     for event in all_events['data'] :
-        print (event)
         if event['id'] in post_id :                
             DateTime = prettify_date([{'created_time': event['start_time']}])
             if 'description' in event.keys() :  #checking if the event have description 
@@ -95,7 +93,7 @@ def shortify_links(message) :
     for mess in message :
         if len(mess) > max_string_length :
             mess = ' <a href="' + mess + '" target="_blank"> ' + mess[0:show_string_length] + ' </a> '
-        new_message = new_message + mess
+        new_message = new_message + mess + " "
     
     return new_message 
 
