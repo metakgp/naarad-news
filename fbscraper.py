@@ -81,6 +81,19 @@ def get_shared_post(post_id) :
     original_message = graph.get(query)['message']
     return original_message
 
+def shortify_links(message) :
+    
+    max_string_length = 20
+    show_string_length = 15
+    message = string.split(message," ")
+    new_message = ""
+    
+    for mess in message :
+        if len(mess) > max_string_length :
+            mess = ' <a href="' + mess + '" target="_blank"> ' + mess[0:show_string_length] + ' </a> '
+        new_message = new_message + mess
+    
+    return new_message 
 
 def get_feed(page_id, pages=10):
     # check last update time
@@ -144,7 +157,8 @@ def get_feed(page_id, pages=10):
             if "event" in post_dict['story'] :
             	post_dict['message'] = get_event(post_dict['id'])
             elif "shared" in post_dict['story'] :
-                post_dict['message'] = '<b>' + post_dict['story'] + '</b>' + '\n\n' + get_shared_post(post_dict['id']) 
+                post_dict['message'] = ' <b> ' + post_dict['story'] + ' </b> ' + ' \n\n ' + get_shared_post(post_dict['id']) 
+            post_dict['message'] = shortify_links(post_dict['message'])
         except KeyError :
             pass
 
