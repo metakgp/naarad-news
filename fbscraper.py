@@ -85,23 +85,6 @@ def get_shared_post(post_id):
     original_message = graph.get(query)['message']
     return original_message
 
-def shortify_links(message) :
-    
-    max_string_length = 20
-    show_string_length = 15
-    if "<" in message :
-        message = message.replace("<"," <")
-    if ">" in message :
-        message = message.replace(">","> ")
-    message = message.split(" ")   
-    new_message = ""
-    
-    for mess in message :
-        if len(mess) > max_string_length :
-            mess = ' <a href="http://' + mess + '" target="_blank"> ' + mess[0:show_string_length] + '... </a> '
-        new_message = new_message + mess + " "
-    
-    return new_message 
 
 def get_feed(page_id, pages=10):
     # check last update time
@@ -140,7 +123,8 @@ def get_feed(page_id, pages=10):
         try:
             feed = graph.get(the_query)
             new_page_data = feed['data']
-            is_new_post = (parse(new_page_data[0]['created_time']) > last_post_time)
+            is_new_post = (
+                parse(new_page_data[0]['created_time']) > last_post_time)
 
             data.extend(new_page_data)
         except facepy.exceptions.OAuthError:
@@ -158,18 +142,6 @@ def get_feed(page_id, pages=10):
             print('last page...')
             next_page = False
         pages = pages - 1
-
-    for post_dict in data:
-        post_dict['pic'] = get_picture(post_dict['id'], dir='docs')
-        post_dict['link'] = get_link(post_dict['id'])
-        try :  #Events and shared post have story key
-            if "event" in post_dict['story'] :
-            	post_dict['message'] = get_event(post_dict['id'] , page_id)
-            elif "shared" in post_dict['story'] :
-                post_dict['message'] = ' <b> ' + post_dict['story'] + ' </b> ' + ' \n\n ' + get_shared_post(post_dict['id']) 
-            post_dict['message'] = shortify_links(post_dict['message'])
-        except KeyError :
-            pass
 
     data.extend(old_data)
     data.sort(key=lambda x: parse(x['created_time']), reverse=True)
