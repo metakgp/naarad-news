@@ -62,23 +62,25 @@ def get_link(post_id):
     return link
 
 
-def get_event(post_id , page_id) :
+def get_event(post_id, page_id):
     base_query = page_id + '/events'
     all_events = graph.get(base_query)
-    for event in all_events['data'] :
-        if event['id'] in post_id :                
+    for event in all_events['data']:
+        if event['id'] in post_id:
             DateTime = prettify_date([{'created_time': event['start_time']}])
-            if 'description' in event.keys() :  #checking if the event have description 
-            	message = "%s \nDate : %s\nTime : %s\nVenue : %s "  %  (event['description'] ,DateTime[0]['real_time']  , DateTime[0]['real_date']  , event['place']['name'])
-            else :
-            	message = "%s \nDate : %s\nTime : %s\nVenue : %s "  %  (event['name'] ,DateTime[0]['real_date']  , DateTime[0]['real_time']  , event['place']['name']) 
+            if 'description' in event.keys():  # checking if the event have description
+                message = "%s \nDate : %s\nTime : %s\nVenue : %s " % (event['description'], DateTime[
+                                                                      0]['real_time'], DateTime[0]['real_date'], event['place']['name'])
+            else:
+                message = "%s \nDate : %s\nTime : %s\nVenue : %s " % (event['name'], DateTime[
+                                                                      0]['real_date'], DateTime[0]['real_time'], event['place']['name'])
             return message
 
 
-
-def get_shared_post(post_id) :
+def get_shared_post(post_id):
     base_query = post_id + '?fields=parent_id'
-    parent_id = graph.get(base_query)['parent_id']  #getting if of the original post
+    # getting if of the original post
+    parent_id = graph.get(base_query)['parent_id']
     query = parent_id + '?fields=message'
     original_message = graph.get(query)['message']
     return original_message
@@ -148,7 +150,8 @@ def get_feed(page_id, pages=10):
         # determine the next page, until there isn't one
         try:
             next_page = feed['paging']['next']
-            next_search = re.search('.*(\&until=[0-9]+)', next_page, re.IGNORECASE)
+            next_search = re.search(
+                '.*(\&until=[0-9]+)', next_page, re.IGNORECASE)
             if next_search:
                 the_until_arg = next_search.group(1)
         except IndexError:
@@ -182,11 +185,11 @@ def remove_duplicates(data):
     except FileNotFoundError:
         uniq_data = []
 
-    for i in range(0,len(data)):
+    for i in range(0, len(data)):
         if data[i] not in uniq_data:
             uniq_data.append(data[i])
 
-    return uniq_data        
+    return uniq_data
 
 
 def utc_to_time(naive, timezone="Asia/Colombo"):
@@ -194,16 +197,17 @@ def utc_to_time(naive, timezone="Asia/Colombo"):
 
 
 def prettify_date(data):
-  for i in range(0,len(data)):
-    date = data[i]['created_time']
-    p1 = date.split("T")[0]
-    p2 = date.split("T")[1].split("+")[0]
-    date = parse(p1 + " " + p2)
-    date = utc_to_time(date,"Asia/Colombo")
-    time = datetime.strptime(date.strftime("%H%M"), '%H%M').strftime('%I:%M%p').upper()
-    data[i]['real_date'] = date.strftime("%d-%m-%Y ") 
-    data[i]['real_time'] = time
-  return data    
+    for i in range(0, len(data)):
+        date = data[i]['created_time']
+        p1 = date.split("T")[0]
+        p2 = date.split("T")[1].split("+")[0]
+        date = parse(p1 + " " + p2)
+        date = utc_to_time(date, "Asia/Colombo")
+        time = datetime.strptime(date.strftime(
+            "%H%M"), '%H%M').strftime('%I:%M%p').upper()
+        data[i]['real_date'] = date.strftime("%d-%m-%Y ")
+        data[i]['real_time'] = time
+    return data
 
 
 def get_aggregated_feed(pages):
@@ -227,9 +231,9 @@ def get_aggregated_feed(pages):
 if __name__ == "__main__":
     # Great thanks to https://gist.github.com/abelsonlive/4212647
     news_pages = [('The Scholar\'s Avenue', 'scholarsavenue'),
-                   ('Awaaz IIT Kharagpur', 'awaaziitkgp'),
-                   ('Technology Students Gymkhana', 'TSG.IITKharagpur'),
-                   ('Technology IIT KGP', 'iitkgp.tech')  ]
+                  ('Awaaz IIT Kharagpur', 'awaaziitkgp'),
+                  ('Technology Students Gymkhana', 'TSG.IITKharagpur'),
+                  ('Technology IIT KGP', 'iitkgp.tech')]
     for_later = ['Cultural-IIT-Kharagpur']
 
     data = get_aggregated_feed(news_pages)
