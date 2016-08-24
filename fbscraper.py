@@ -78,11 +78,13 @@ Veunu: {}
             if 'description' in event.keys():  # checking if the event have description
                 message = message.format(event['description'],
                                          DateTime[0]['real_time'],
-                                         DateTime[0]['real_date'])
+                                         DateTime[0]['real_date'],
+                                         event['place']['name'])
             else:
                 message = message.format(event['name'],
                                          DateTime[0]['real_time'],
-                                         DateTime[0]['real_date'])
+                                         DateTime[0]['real_date'],
+                                         event['place']['name'])
             return message
 
 
@@ -151,6 +153,17 @@ def get_feed(page_id, pages=10):
             print('last page...')
             next_page = False
         pages = pages - 1
+        for post_dict in data:
+            post_dict['pic'] = get_picture(post_dict['id'], dir='docs')
+            post_dict['link'] = get_link(post_dict['id'])
+            try :  #Events and shared post have story key
+                if "event" in post_dict['story'] :
+                    post_dict['message'] = get_event(post_dict['id'], page_id)
+                elif "shared" in post_dict['story'] :
+                    post_dict['message'] = '<b>' + post_dict['story'] + '</b>' + '\n\n' + get_shared_post(post_dict['id']) 
+            except KeyError :
+                pass
+
 
     data.extend(old_data)
     data.sort(key=lambda x: parse(x['created_time']), reverse=True)
