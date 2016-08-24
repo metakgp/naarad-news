@@ -24,16 +24,17 @@ def shortify_string(message):
 def enable_links(message):
     links = parser.links(message)
 
-    for link in links:
+    for link in links: 
         http_link = link
         if not link.startswith('http'):
             http_link = "http://{}".format(link)
 
-        if len(link) > 25:
-            link = link[0:25]
-
-        message = message.replace(link, " <a href=\"{}\" target=\"_blank\"> {} </a> ".format(http_link, link))
-    
+        # if len(link) > 25:
+        #     link = link[0:25]
+        if len(link) >25 :
+            message = message.replace(link, " <a href=\"{}\" target=\"_blank\"> {} </a> ".format(http_link, link[0:25]))
+        else : 
+            message = message.replace(link, " <a href=\"{}\" target=\"_blank\"> {} </a> ".format(http_link, link))
     return message
 
 
@@ -44,7 +45,7 @@ def get_html(data):
         if 'message' in post:
             post['message'] = enable_links(post['message'])
             post['message'] = fixnewlines(post['message'])
-            post['message'] = shortify_string(post['message'])
+            #post['message'] = shortify_string(post['message'])
 
 
     template = Template(template_raw)
