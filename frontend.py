@@ -14,10 +14,11 @@ def enable_links(message):
     links = parser.links(message)
 
     for link in links:
+        http_link = link
         if not link.startswith('http'):
-            link = "http://{}".format(link)
+            http_link = "http://{}".format(link)
 
-        message = message.replace(link, "<a href=\"{}\">{}</a>".format(link, link))
+        message = message.replace(link, "<a href=\"{}\" target=\"_blank\">{}</a>".format(http_link, link))
 
     return message
 
