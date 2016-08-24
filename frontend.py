@@ -1,20 +1,38 @@
 import json
 from django.utils.encoding import smart_str
 from jinja2 import Template
+import commonregex
+
+parser = commonregex.CommonRegex()
 
 
-def fixnewlines(data):
-    for post in data:
-        if 'message' in post:
-            post['message'] = post['message'].replace('\n', '<br>')
-    return data
+def fixnewlines(message):
+    return message.replace('\n', '<br>')
+
+
+def enable_links(message):
+    links = parser.links(message)
+
+    for link in links:
+        if not link.startswith('http'):
+            link = "http://{}".format(link)
+
+        message = message.replace(link, "<a href=\"{}\">{}</a>".format(link, link))
+
+    return message
 
 
 def get_html(data):
     template_raw = open('feed.tmpl', 'r').read()
+
+    for post in data:
+        if 'message' in post:
+            post['message'] = enable_links(post['message'])
+            post['message'] = fixnewlines(post['message'])
+
     template = Template(template_raw)
-    data = fixnewlines(data)
     html = template.render(data=data)
+    # smart_str helps in unicode rendering
     return smart_str(html)
 
 
