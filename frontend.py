@@ -10,16 +10,17 @@ def fixnewlines(message):
     return message.replace('\n', ' <br> ')
 
 
-def shortify_string(message):
+# def shortify_string(message):
     
-    message = message.split(" ")
-    new_message = ""    
-    for mess in message :
-        if len(mess) > 25 :
-            mess = ' <a href="' + mess + '" target="_blank"> ' + mess[0:25] + '... </a> '
-        new_message = new_message + mess + " "
+#     message = message.split(" ")
+#     new_message = ""    
+#     for mess in message :
+#         if len(mess) > 25 :
+#             mess = ' <a href="' + mess + '" target="_blank"> ' + mess[0:25] + '... </a> '
+#         new_message = new_message + mess + " "
     
-    return new_message 
+#     return new_message 
+ 
 
 def enable_links(message):
     links = parser.links(message)
@@ -39,7 +40,8 @@ def enable_links(message):
             link = link[0:25]
             message = message.replace(link, " <a href=\"{}\" target=\"_blank\"> {} </a> ".format(http_link, link))
         else:    
-            message = shortify_string(message) 
+           # message = shortify_string(message)
+            message = message.replace(link, " <a href=\"{}\" target=\"_blank\"> {} </a> ".format(http_link, link[0:25]+"...")) 
     return message
 
 
