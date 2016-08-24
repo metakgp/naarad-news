@@ -7,7 +7,7 @@ parser = commonregex.CommonRegex()
 
 
 def fixnewlines(message):
-    return message.replace('\n', '<br>')
+    return message.replace('\n', ' <br> ')
 
 
 def shortify_string(message):
@@ -16,7 +16,7 @@ def shortify_string(message):
     new_message = ""    
     for mess in message :
         if len(mess) > 25 :
-            mess = ' <a href="' + mess + '" target="_blank"> ' + mess[0:25] + '[...] </a> '
+            mess = ' <a href="' + mess + '" target="_blank"> ' + mess[0:25] + '... </a> '
         new_message = new_message + mess + " "
     
     return new_message 
@@ -24,17 +24,16 @@ def shortify_string(message):
 def enable_links(message):
     links = parser.links(message)
 
-    for link in links: 
+    for link in links:
         http_link = link
         if not link.startswith('http'):
             http_link = "http://{}".format(link)
 
-        # if len(link) > 25:
-        #     link = link[0:25]
-        if len(link) >25 :
-            message = message.replace(link, " <a href=\"{}\" target=\"_blank\"> {} </a> ".format(http_link, link[0:25]))
-        else : 
+        if len(link) < 25:
+            link = link[0:25]
             message = message.replace(link, " <a href=\"{}\" target=\"_blank\"> {} </a> ".format(http_link, link))
+        else:    
+            message = shortify_string(message) 
     return message
 
 
@@ -43,9 +42,8 @@ def get_html(data):
 
     for post in data:
         if 'message' in post:
-            post['message'] = enable_links(post['message'])
             post['message'] = fixnewlines(post['message'])
-            #post['message'] = shortify_string(post['message'])
+            post['message'] = enable_links(post['message'])
 
 
     template = Template(template_raw)
