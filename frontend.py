@@ -10,6 +10,17 @@ def fixnewlines(message):
     return message.replace('\n', '<br>')
 
 
+def shortify_string(message):
+    
+    message = message.split(" ")
+    new_message = ""    
+    for mess in message :
+        if len(mess) > 20 :
+            mess = mess[0:20] + '[...] '
+        new_message = new_message + mess + " "
+    
+    return new_message 
+
 def enable_links(message):
     links = parser.links(message)
 
@@ -18,8 +29,11 @@ def enable_links(message):
         if not link.startswith('http'):
             http_link = "http://{}".format(link)
 
-        message = message.replace(link, "<a href=\"{}\" target=\"_blank\">{}</a>".format(http_link, link))
+        if len(link) > 20:
+            link = link[0:20]
 
+        message = message.replace(link, " <a href=\"{}\" target=\"_blank\"> {} </a> ".format(http_link, link))
+    
     return message
 
 
@@ -30,6 +44,8 @@ def get_html(data):
         if 'message' in post:
             post['message'] = enable_links(post['message'])
             post['message'] = fixnewlines(post['message'])
+            post['message'] = shortify_string(post['message'])
+
 
     template = Template(template_raw)
     html = template.render(data=data)
