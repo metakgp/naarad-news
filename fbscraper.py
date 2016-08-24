@@ -65,15 +65,24 @@ def get_link(post_id):
 def get_event(post_id, page_id):
     base_query = page_id + '/events'
     all_events = graph.get(base_query)
+
+    message = """
+{}
+Date: {}
+Time: {}
+Veunu: {}
+    """
     for event in all_events['data']:
         if event['id'] in post_id:
             DateTime = prettify_date([{'created_time': event['start_time']}])
             if 'description' in event.keys():  # checking if the event have description
-                message = "%s \nDate : %s\nTime : %s\nVenue : %s " % (event['description'], DateTime[
-                                                                      0]['real_time'], DateTime[0]['real_date'], event['place']['name'])
+                message = message.format(event['description'],
+                                         DateTime[0]['real_time'],
+                                         DateTime[0]['real_date'])
             else:
-                message = "%s \nDate : %s\nTime : %s\nVenue : %s " % (event['name'], DateTime[
-                                                                      0]['real_date'], DateTime[0]['real_time'], event['place']['name'])
+                message = message.format(event['name'],
+                                         DateTime[0]['real_time'],
+                                         DateTime[0]['real_date'])
             return message
 
 
