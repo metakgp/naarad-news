@@ -15,8 +15,8 @@ def shortify_string(message):
     message = message.split(" ")
     new_message = ""    
     for mess in message :
-        if len(mess) > 20 :
-            mess = mess[0:20] + '[...] '
+        if len(mess) > 25 :
+            mess = ' <a href="' + mess + '" target="_blank"> ' + mess[0:25] + '[...] </a> '
         new_message = new_message + mess + " "
     
     return new_message 
@@ -29,8 +29,8 @@ def enable_links(message):
         if not link.startswith('http'):
             http_link = "http://{}".format(link)
 
-        if len(link) > 20:
-            link = link[0:20]
+        if len(link) > 25:
+            link = link[0:25]
 
         message = message.replace(link, " <a href=\"{}\" target=\"_blank\"> {} </a> ".format(http_link, link))
     
