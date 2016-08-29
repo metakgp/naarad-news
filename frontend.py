@@ -53,7 +53,7 @@ def get_html(data):
             post['message'] = fixnewlines(post['message'])
             post['message'] = enable_links(post['message'])
 
-    json.dump(data, open('docs/feed.json', 'w'))
+#    json.dump(data, open('docs/feed.json', 'w'))
     template = Template(template_raw)
     html = template.render(data=data)
     # smart_str helps in unicode rendering
