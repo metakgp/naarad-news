@@ -6,7 +6,7 @@ from dateutil.parser import parse
 import string
 from datetime import datetime
 import pytz
-
+import urllib.request
 import facepy
 from facepy import GraphAPI
 
@@ -50,6 +50,18 @@ def get_picture(post_id, dir="."):
     except facepy.FacebookError:
         return None
 
+def get_event_picture(post_id, dir="."):
+    base_query = post_id + '?fields=object_id'
+    try:
+        pic_id = graph.get(base_query)['object_id']
+    except KeyError:
+        return None
+    try:
+        pic = graph.get('{}?fields=cover'.format(pic_id))
+        urllib.request.urlretrieve(pic['cover']['source'] , "{}/{}.png".format(dir, pic_id))
+        return "{}.png".format(pic_id)
+    except facepy.FacebookError:
+        return None
 
 def get_link(post_id):
     base_query = post_id + '?fields=link'
@@ -159,6 +171,7 @@ def get_feed(page_id, pages=10):
             try :  #Events and shared post have story key
                 if "event" in post_dict['story'] :
                     post_dict['message'] = get_event(post_dict['id'], page_id)
+                    post_dict['pic'] = get_event_picture(post_dict['id'],dir='docs')
                 elif "shared" in post_dict['story'] :
                     post_dict['message'] = '<b>' + post_dict['story'] + '</b>' + '\n\n' + get_shared_post(post_dict['id']) 
             except KeyError :
