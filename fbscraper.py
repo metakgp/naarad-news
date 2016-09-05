@@ -2,11 +2,9 @@ from __future__ import print_function
 
 import re
 import json
-from dateutil.parser import parse
-import string
-from datetime import datetime
-import pytz
+from dateutil.parser import parse, tz
 import urllib.request
+
 import facepy
 from facepy import GraphAPI
 
@@ -50,6 +48,7 @@ def get_picture(post_id, dir="."):
     except facepy.FacebookError:
         return None
 
+
 def get_event_picture(post_id, dir="."):
     base_query = post_id + '?fields=object_id'
     try:
@@ -62,6 +61,7 @@ def get_event_picture(post_id, dir="."):
         return "{}.png".format(pic_id)
     except facepy.FacebookError:
         return None
+
 
 def get_link(post_id):
     base_query = post_id + '?fields=link'
@@ -192,28 +192,20 @@ def remove_duplicates(data):
     except FileNotFoundError:
         uniq_data = []
 
-    for i in range(0, len(data)):
-        if data[i] not in uniq_data:
-            uniq_data.append(data[i])
+    for item in data:
+        if item not in uniq_data:
+            uniq_data.append(item)
 
     return uniq_data
 
 
-def utc_to_time(naive, timezone="Asia/Colombo"):
-    return naive.replace(tzinfo=pytz.utc).astimezone(pytz.timezone(timezone))
-
-
 def prettify_date(data):
-    for i in range(0, len(data)):
-        date = data[i]['created_time']
-        p1 = date.split("T")[0]
-        p2 = date.split("T")[1].split("+")[0]
-        date = parse(p1 + " " + p2)
-        date = utc_to_time(date, "Asia/Colombo")
-        time = datetime.strptime(date.strftime(
-            "%H%M"), '%H%M').strftime('%I:%M%p').upper()
-        data[i]['real_date'] = date.strftime("%d-%m-%Y ")
-        data[i]['real_time'] = time
+    for item in data:
+        date = parse(item['created_time'])
+        tzlocal = tz.gettz('Asia/Kolkata')
+        local_date = date.astimezone(tzlocal)
+        item['local_date'] = local_date.strftime('%d-%m-%Y')
+        item['local_time'] = local_date.strftime('%I:%M%p')
     return data
 
 
