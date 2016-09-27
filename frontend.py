@@ -24,7 +24,8 @@ def fixnewlines(message):
 
 def enable_links(message):
     links = parser.links(message)
-    url_identifier = ["www","http","bit.ly","com",".co.in"]
+    links = list(set(links))
+    url_identifier = ["www","http","bit.ly",".com",".co.in"]
     for link in links:
         flag = 0
         for keyword in url_identifier :
@@ -32,16 +33,16 @@ def enable_links(message):
                 flag = 1
                 break
         if flag is 0 :
-            continue
+            break
         http_link = link
         if not link.startswith('http'):
             http_link = "http://{}".format(link)
         if len(link) < 25:
             link = link[0:25]
-            message = message.replace(link, " <a href=\"{}\" target=\"_blank\"> {} </a> ".format(http_link, link))
+            message = message.replace(link, " <a href=\"{}\" target=\"_blank\"> {} </a> ".format(http_link, link) , 1)
         else:    
            # message = shortify_string(message)
-            message = message.replace(link, " <a href=\"{}\" target=\"_blank\"> {} </a> ".format(http_link, link[0:25]+"...")) 
+            message = message.replace(link, " <a href=\"{}\" target=\"_blank\"> {} </a> ".format(http_link, link[0:25]+"...") ,1 ) 
     return message
 
 

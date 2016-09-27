@@ -1,5 +1,4 @@
 #!/bin/bash
-
 python3 fbscraper.py
 #python3 frontend.py
 

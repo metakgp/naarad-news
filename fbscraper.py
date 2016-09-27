@@ -38,13 +38,13 @@ def get_picture(post_id, dir="."):
         return None
 
     try:
-        pic = graph.get('{}/picture'.format(pic_id))
-
-        f_name = "{}/{}.png".format(dir, pic_id)
-        f_handle = open(f_name, "wb")
-        f_handle.write(pic)
-        f_handle.close()
-        return "{}.png".format(pic_id)
+        pic = graph.get('{}?fields=images'.format(pic_id))
+        return (pic['images'][0]['source'])
+        # f_name = "{}/{}.png".format(dir, pic_id)
+        # f_handle = open(f_name, "wb")
+        # f_handle.write(pic)
+        # f_handle.close()
+        # return "{}.png".format(pic_id)
     except facepy.FacebookError:
         return None
 
@@ -57,8 +57,9 @@ def get_event_picture(post_id, dir="."):
         return None
     try:
         pic = graph.get('{}?fields=cover'.format(pic_id))
-        urllib.request.urlretrieve(pic['cover']['source'] , "{}/{}.png".format(dir, pic_id))
-        return "{}.png".format(pic_id)
+        return (pic['cover']['source'])
+        # urllib.request.urlretrieve(pic['cover']['source'] , "{}/{}.png".format(dir, pic_id))
+        # return "{}.png".format(pic_id)
     except facepy.FacebookError:
         return None
 
@@ -187,11 +188,7 @@ def get_feed(page_id, pages=10):
 
 
 def remove_duplicates(data):
-    try:
-        uniq_data = json.load(open('docs/feed.json', 'r'))
-    except FileNotFoundError:
-        uniq_data = []
-
+    uniq_data = []
     for item in data:
         if item not in uniq_data:
             uniq_data.append(item)
@@ -204,8 +201,8 @@ def prettify_date(data):
         date = parse(item['created_time'])
         tzlocal = tz.gettz('Asia/Kolkata')
         local_date = date.astimezone(tzlocal)
-        item['local_date'] = local_date.strftime('%d-%m-%Y')
-        item['local_time'] = local_date.strftime('%I:%M%p')
+        item['real_date'] = local_date.strftime('%d-%m-%Y')
+        item['real_time'] = local_date.strftime('%I:%M%p')
     return data
 
 
@@ -232,7 +229,8 @@ if __name__ == "__main__":
     news_pages = [('The Scholar\'s Avenue', 'scholarsavenue'),
                   ('Awaaz IIT Kharagpur', 'awaaziitkgp'),
                   ('Technology Students Gymkhana', 'TSG.IITKharagpur'),
-                  ('Technology IIT KGP', 'iitkgp.tech')]
+                  ('Technology IIT KGP', 'iitkgp.tech'),
+                  ('Metakgp', 'metakgp')]
     for_later = ['Cultural-IIT-Kharagpur']
 
     data = get_aggregated_feed(news_pages)
