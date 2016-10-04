@@ -23,6 +23,8 @@ def fixnewlines(message):
  
 
 def enable_links(message):
+    if '<video width="320" height="240" controls>' in message :
+        return message
     links = parser.links(message)
     links = list(set(links))
     url_identifier = ["www","http","bit.ly",".com",".co.in"]
