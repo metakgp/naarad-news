@@ -109,7 +109,23 @@ def get_shared_post(post_id):
     original_message = graph.get(query)['message']
     return original_message
 
-
+def get_video(post_id) :
+    video_id = post_id.split('_')[1]
+    base_url = video_id + "?fields=embeddable" 
+    embed_flag = graph.get(base_url)['embeddable'] 
+    if embed_flag : #checking if the video is embedddable 
+        embed_html_url=video_id + '?fields=from,source'
+        query = graph.get(embed_html_url)
+        video_url = query['source']
+        page_name = query['from']['name']
+        msg = """<b>{} shared the following video\n\n
+                <video width="320" height="240" controls>
+                <source src="{}" >
+                 Your browser does not support the video tag.
+                    </video>""".format(page_name,video_url)
+        return msg
+    else : 
+        return ""
 def get_feed(page_id, pages=10):
     # check last update time
     try:
@@ -175,8 +191,11 @@ def get_feed(page_id, pages=10):
                     post_dict['pic'] = get_event_picture(post_dict['id'],dir='docs')
                 elif "shared" in post_dict['story'] :
                     post_dict['message'] = '<b>' + post_dict['story'] + '</b>' + '\n\n' + get_shared_post(post_dict['id']) 
+
+              #  print (post_dict['message'])
             except KeyError :
-                pass
+                if "message" not in post_dict.keys():
+                    post_dict['message'] = get_video(post_dict['id'])
 
 
     data.extend(old_data)
@@ -230,7 +249,8 @@ if __name__ == "__main__":
                   ('Awaaz IIT Kharagpur', 'awaaziitkgp'),
                   ('Technology Students Gymkhana', 'TSG.IITKharagpur'),
                   ('Technology IIT KGP', 'iitkgp.tech'),
-                  ('Metakgp', 'metakgp')]
+                  ('Metakgp', 'metakgp'),
+                  ('Defcon-Page' , 'defconkgp')]
     for_later = ['Cultural-IIT-Kharagpur']
 
     data = get_aggregated_feed(news_pages)
