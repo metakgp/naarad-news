@@ -3,7 +3,7 @@ from __future__ import print_function
 import re
 import json
 from dateutil.parser import parse, tz
-import urllib.request
+# import urllib.request
 
 import facepy
 from facepy import GraphAPI
