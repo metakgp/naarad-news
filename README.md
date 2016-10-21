@@ -1,7 +1,7 @@
 Naarad
 ======
 
-Naarad aggregates all your KGP related news from facebook pages to one place.
+Naarad aggregates all your KGP related news from facebook pages to one place.Go to http://naarad.metakgp.org to see it working.
 
 ## How does it work?
 
