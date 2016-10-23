@@ -78,7 +78,7 @@
                   {% if post['pic'] %}
                     <div class="col-md-4 col-sm-12">
                       <div class="card-up view overlay hm-white-slight">
-                        <img class="lazy responsive-img" data-original="{{ post['pic'] }}">
+                        <img class="b-lazy responsive-img" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== data-src="{{ post['pic'] }}">
                       </div>
                     </div>
                     <div class="col-md-8 col-sm-12">
@@ -124,15 +124,13 @@
     </script>
     <!-- Ending the GA script -->
   <script type="text/javascript" src="js/jquery.min.js"></script>
-  <script type="text/javascript" src="js/jquery.lazy.js"></script>
-    <script type="text/javascript" charset="utf-8">
-  $(function() {
-     $("img.lazy").lazyload({           
-     		     event: "lazyload",
-             effect: "fadeIn",
-             effectspeed: 2000});
-  });
-  </script>
+  <script type="text/javascript" src="js/blazy.min.js"></script>
+    <script>
+        ;(function() {
+            // Initialize
+            var bLazy = new Blazy();
+        })();
+    </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>  
   <script type="text/javascript" src="js/string_score.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
