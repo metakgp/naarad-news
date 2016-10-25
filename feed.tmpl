@@ -1,142 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="shortcut icon" href="favicon.ico?v=1" />
-    <title> KGP Trends - Naarad | Metakgp </title>
-
-    <!-- START INCLUDING CSS -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/animate.min.css" rel="stylesheet">
-    <link href="css/mdb.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
-    <!-- END INCLUDING CSS -->
-
-  </head>
-  <body>
-
-    <!-- START PRELOADER -->
-    <div id="preloader">
-      <div id="status">
-        <div class="row">
-          <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4 "> <img src="metakgp.jpg" width="100%"> </div>
-        </div>
-        <br><br>
-        <div class="progress">
-          <div class="indeterminate"></div>
-        </div>
-      </div>
-    </div>
-    <!-- END PRELOADER -->
-
-    <!-- START NAVBAR -->
-    <nav class="navbar navbar-fixed-top z-depth-1000  black" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand waves-effect waves-light">&nbsp; <b>NAARAD</b></a>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="max-height: 900px; max-width: 100%;">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://metakgp.github.io" target="_blank" style="font-size: 17px;"><b>HOMEPAGE</b></a></li>
-            <li><a href="https://wiki.metakgp.org/w/Main_Page" target="_blank" style="font-size: 17px;"><b>WIKI</b></a></li>
-            <li><a href="https://github.com/metakgp" target="_blank" style="font-size: 17px;"><b>GITHUB</b></a></li>
-            <li style="margin-left: 10px;"><b><input type="text" id="query" placeholder="Search for facebook posts" style="width: 100%; color: white;" ></b></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <!-- END NAVBAR -->
-    
-    <br><br><br><br>
-    
-    <!-- START DISPLAYING POSTS -->
-    <div class="container">
-      <section id="result-div">
-        
-      </section>
-      <section id="all-div">
-        <div class="row">        
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+        <link rel="icon" href="img/favicon.ico">
+        <title>Naarad - KGP Trends</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css" integrity="sha384-Wrgq82RsEean5tP3NK3zWAemiNEXofJsTwTyHmNb/iL3dP/sZJ4+7sOld1uqYJtE" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+        <style>
+          .modal-body {
+            max-height: calc(100vh - 210px);
+            overflow-y: auto;
+          }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-fixed-top navbar-dark" style="background: #060713;">
+            <a class="navbar-brand" href="#" style="margin-top:10px;">
+                <i class="fa fa-slack"></i> NAARAD
+            </a>
+            <ul class="nav navbar-nav float-xs-right" style="margin-top: 10px;">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"><i class="fa fa-wikipedia-w fa-lg"></i></a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="#"><i class="fa fa-facebook-official fa-lg"></i></a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="#"><i class="fa fa-github fa-lg"></i></a>
+                </li>
+            </ul>
+        </nav>
+        <br><br><br><br>
+        <div class="container">
+            <div class="card-columns">     
           {% for post in data %}
-            <div class="col-md-12 col-sm-12 wow bounceInUp" style="visibility: visible; animation-name: bounceInUp;">
-              <div class="elegant-card border-black z-depth-1">
-                <div class="row">
-                  <div class="col-md-12 col-sm-12">
-                    <div class="card-footer">
-                      <ul class="list-inline">
-                        <li><i class="fa fa-clock-o"></i>Posted on {{ post['real_date'] }} at {{ post['real_time'] }}</li>
-                      </ul>
+
+
+<div class="card text-xs-center animated" style="visibility: visible; animation-name: bounceInUp;">
+                    <div class="card-header" style="background: #060713; color: white;">
+                        {{post['source']}}
                     </div>
-                  </div>
-                  {% if post['pic'] %}
-                    <div class="col-md-4 col-sm-12">
-                      <div class="card-up view overlay hm-white-slight">
-                        <img class="b-lazy responsive-img" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== data-src="{{ post['pic'] }}">
-                      </div>
+                    {% if post['pic'] %}
+                    <img width="100%" class="card-img-top img-fluid b-lazy" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== data-src="{{ post['pic'] }}">
+                    {% endif %}
+                    <div class="card-block">
+                        <p class="card-text">
+                          {{post['short_message'] }}
+                          {% if post['read_more'] %}
+                             <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}}">[...]</a>
+                          {% endif %}
+                        </p>
+                    {% if post['read_more'] %}
+                      {% if post['pic'] %}
+                        <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}} " data-img = "{{post['pic']}}" class="card-link"><i class="fa fa-book fa-lg"></i> Read more</a>
+                      {% else %}
+                        <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}} " data-img = "0" class="card-link"><i class="fa fa-book fa-lg"></i> Read more</a>
+                      {% endif %}
+                    {% endif %}
+                        <a href="https://www.facebook.com/{{ post['id'] }}" target="_blank" class="card-link"><i class="fa fa-facebook-official fa-lg"></i> View post</a>
                     </div>
-                    <div class="col-md-8 col-sm-12">
-                      <div class="card-content">
-                        <h5>{{post['source'] }}</h5>
-                        <p>{{ post['message'] }}</p>
-                      </div>
+                    <div class="card-footer" style="background: #060713; color: white;">
+                        <h6 class="card-subtitle small">Posted on {{ post['real_date'] }} at {{ post['real_time'] }}</h6>
                     </div>
-                  {% else %}
-                    <div class="col-md-12 col-sm-12">
-                      <div class="card-content">
-                        <h5>{{post['source'] }}</h5>
-                        <p>{{ post['message'] }}</p>
-                      </div>
-                    </div>
-                  {% endif %}  
-                  <div class="col-md-12 col-sm-12">
-                    <div class="card-footer">
-                      <ul class="list-inline">
-                        <li><a href="https://www.facebook.com/{{ post['id'] }}" target="_blank"><i class="fa fa-facebook"></i> View the post</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>  
-              </div>
-            </div>  
-            <hr class="extra-margins">
+                </div>
           {% endfor %}
-        </div>  
-      </section>
-    </div>    
-  </body>   
+                  </div>
+                </div>
+        <div class="bd-example">
+            <div class="modal fade" id="big" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+                        </div>
+                        <div class="modal-body">
+                          <div class="row">
+                              <div id="pic" class="col-lg-4 col-sm-12" style="border:none; opacity: 1;">
+                                  <div class="card">
+                                      <img src="" width="100%" class="card-img-top img-fluid" alt="">
+                                  </div>
+                              </div>
+                              <div id="content" class="col-lg-8 col-sm-12">
+                                  <div class="card text-xs-center" style="border:none;">
+                                      <div class="card-block">
+                                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  <!-- START INCLUDING JS SCRIPTS -->
-    <!-- Starting the GA script  -->
-    <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-84925216-1', 'auto');
-    ga('send', 'pageview');
-    </script>
-    <!-- Ending the GA script -->
-  <script type="text/javascript" src="js/jquery.min.js"></script>
-  <script type="text/javascript" src="js/blazy.min.js"></script>
-    <script>
-        ;(function() {
-            // Initialize
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+        $('#big').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget) // Button that triggered the modal
+          var source = button.data('source') // Extract info from data-* attributes
+          var message = button.data('message')
+          var img = button.data('img')
+          var modal = $(this)
+          if(img==0) {
+              modal.find("#pic").removeClass("col-lg-4")
+              modal.find("#pic").removeClass("col-sm-12")
+              modal.find("#content").removeClass("col-lg-8")
+              modal.find("#content").addClass("col-lg-12")
+              modal.find("#pic").hide()
+          }
+          else {
+              modal.find("#pic").addClass("col-lg-4")
+              modal.find("#pic").addClass("col-sm-12")
+              modal.find("#content").removeClass("col-lg-12")
+              modal.find("#content").addClass("col-lg-8")
+              modal.find("#pic").show()
+              $('#big img').attr('src', img);  
+          }
+          modal.find('.modal-title').text(source)
+          modal.find('.card-text').html(message)
+        })
+        </script>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-84925216-1', 'auto');
+          ga('send', 'pageview');
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/blazy/1.8.1/blazy.js"></script>
+        <script>
+          ;(function() {
             var bLazy = new Blazy();
-        })();
-    </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>  
-  <script type="text/javascript" src="js/string_score.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="js/mdb.js"></script>
-  <script type="text/javascript" src="js/wow.js"></script>
-  <script type="text/javascript" src="js/custom.js"></script>
-  <!-- END INCLUDING JS SCRIPTS --> 
-
+          })();
+        </script>
+    </body>
 </html>
+    
