@@ -55,9 +55,13 @@
                     <div class="card-block">
                         <p class="card-text">
                           {{post['short_message'] }}
-                          {% if post['read_more'] %}
-                             <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}}">[...]</a>
-                          {% endif %}
+                    {% if post['read_more'] %}
+                      {% if post['pic'] %}
+                        <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}} " data-img = "{{post['pic']}}" class="card-link"> [...]</a>
+                      {% else %}
+                        <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}} " data-img = "0" class="card-link"> [...]</a>
+                      {% endif %}
+                    {% endif %}
                         </p>
                     {% if post['read_more'] %}
                       {% if post['pic'] %}
