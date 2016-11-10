@@ -103,9 +103,12 @@ Veunu: {}
 
 def get_shared_post(post_id):
     base_query = post_id + '?fields=parent_id'
-    # getting if of the original post
-    parent_id = graph.get(base_query)['parent_id']
-    query = parent_id + '?fields=message'
+    # getting id of the original post
+    try :   
+        parent_id = graph.get(base_query)['parent_id']
+        query = parent_id + '?fields=message'
+    except KeyError :
+        query = post_id + '?fields=message'
     original_message = graph.get(query)['message']
     return original_message
 
