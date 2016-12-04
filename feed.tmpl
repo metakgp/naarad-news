@@ -65,10 +65,10 @@
       <section id="all-div">
         <div class="row">        
           {% for post in data %}
-            <div class="col-md-12 col-sm-12 wow bounceInUp" style="visibility: visible; animation-name: bounceInUp;">
-              <div class="elegant-card border-black z-depth-1">
+            <div class="col-md-4 col-sm-12 wow bounceInUp PostMain" style="visibility: visible; animation-name: bounceInUp;">
+              <div class="elegant-card border-black z-depth-1 Post">
                 <div class="row">
-                  <div class="col-md-12 col-sm-12">
+                  <div class="col-md-4 col-sm-12 snooze">
                     <div class="card-footer">
                       <ul class="list-inline">
                         <li><i class="fa fa-clock-o"></i>Posted on {{ post['real_date'] }} at {{ post['real_time'] }}</li>
@@ -76,26 +76,26 @@
                     </div>
                   </div>
                   {% if post['pic'] %}
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-md-4 col-sm-12 snooze">
                       <div class="card-up view overlay hm-white-slight">
                         <img class="b-lazy responsive-img" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== data-src="{{ post['pic'] }}">
                       </div>
                     </div>
-                    <div class="col-md-8 col-sm-12">
+                    <div class="col-md-4 col-sm-12 snooze">
                       <div class="card-content">
                         <h5>{{post['source'] }}</h5>
                         <p>{{ post['message'] }}</p>
                       </div>
                     </div>
                   {% else %}
-                    <div class="col-md-12 col-sm-12">
+                    <div class="col-md-4 col-sm-12 snooze">
                       <div class="card-content">
                         <h5>{{post['source'] }}</h5>
                         <p>{{ post['message'] }}</p>
                       </div>
                     </div>
                   {% endif %}  
-                  <div class="col-md-12 col-sm-12">
+                  <div class="col-md-4 col-sm-12 snooze">
                     <div class="card-footer">
                       <ul class="list-inline">
                         <li><a href="https://www.facebook.com/{{ post['id'] }}" target="_blank"><i class="fa fa-facebook"></i> View the post</a></li>
@@ -137,6 +137,26 @@
   <script type="text/javascript" src="js/mdb.js"></script>
   <script type="text/javascript" src="js/wow.js"></script>
   <script type="text/javascript" src="js/custom.js"></script>
+  <script src="js/readmore.min.js"></script>
+  <script type="text/javascript">
+      $('.Post').readmore({
+        afterToggle: function(trigger, element, expanded){
+          if(expanded)
+          {
+            element.parent().attr('class',"col-md-12 col-sm-12 wow bounceInUp PostMain");
+            $(".snooze").each(function(){
+              $(this).attr("class","col-md-12 col-sm-12 snooze");
+            });
+          }
+          else{
+            element.parent().attr('class',"col-md-4 col-sm-12 wow bounceInUp PostMain");
+            $(".snooze").each(function(){
+              $(this).attr("class","col-md-4 col-sm-12 snooze");
+            });
+          }
+        }
+      });
+  </script>
   <!-- END INCLUDING JS SCRIPTS --> 
 
 </html>
