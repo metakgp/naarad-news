@@ -40,12 +40,11 @@
             </ul>
         </nav>
         <br><br><br><br>
+        <div class="hidden-md-up">
         <div class="container">
             <div class="card-columns">     
-          {% for post in data %}
-
-
-<div class="card text-xs-center animated" style="visibility: visible; animation-name: bounceInUp;">
+          {% for post in data[0] %}
+                <div class="card text-xs-center animated" style="visibility: visible; animation-name: bounceInUp;">
                     <div class="card-header" style="background: #060713; color: white;">
                         {{post['source']}}
                     </div>
@@ -79,6 +78,46 @@
           {% endfor %}
                   </div>
                 </div>
+                </div>
+        <div class="hidden-sm-down">
+        <div class="container">
+            <div class="card-columns">     
+          {% for post in data[1] %}
+              <div class="card text-xs-center animated" style="visibility: visible; animation-name: bounceInUp;">
+                    <div class="card-header" style="background: #060713; color: white;">
+                        {{post['source']}}
+                    </div>
+                    {% if post['pic'] %}
+                    <img width="100%" class="card-img-top img-fluid b-lazy" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== data-src="{{ post['pic'] }}">
+                    {% endif %}
+                    <div class="card-block">
+                        <p class="card-text">
+                          {{post['short_message'] }}
+                    {% if post['read_more'] %}
+                      {% if post['pic'] %}
+                        <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}} " data-img = "{{post['pic']}}" class="card-link"> [...]</a>
+                      {% else %}
+                        <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}} " data-img = "0" class="card-link"> [...]</a>
+                      {% endif %}
+                    {% endif %}
+                        </p>
+                    {% if post['read_more'] %}
+                      {% if post['pic'] %}
+                        <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}} " data-img = "{{post['pic']}}" class="card-link"><i class="fa fa-book fa-lg"></i> Read more</a>
+                      {% else %}
+                        <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}} " data-img = "0" class="card-link"><i class="fa fa-book fa-lg"></i> Read more</a>
+                      {% endif %}
+                    {% endif %}
+                        <a href="https://www.facebook.com/{{ post['id'] }}" target="_blank" class="card-link"><i class="fa fa-facebook-official fa-lg"></i> View post</a>
+                    </div>
+                    <div class="card-footer" style="background: #060713; color: white;">
+                        <h6 class="card-subtitle small">Posted on {{ post['real_date'] }} at {{ post['real_time'] }}</h6>
+                    </div>
+                </div>
+          {% endfor %}                  
+          </div>
+                </div>
+                </div>        
         <div class="bd-example">
             <div class="modal fade" id="big" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
