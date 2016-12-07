@@ -44,8 +44,8 @@
         <div class="container">
             <div class="card-columns">     
           {% for post in data[0] %}
-                <div class="card text-xs-center animated" style="visibility: visible; animation-name: bounceInUp;">
-                    <div class="card-header" style="background: #060713; color: white;">
+                <div class="card text-xs-center animated bounceInUp" style="visibility: visible; animation-name: bounceInUp;">
+                    <div class="card-header" style="background: #3E4450; color: white;">
                         {{post['source']}}
                     </div>
                     {% if post['pic'] %}
@@ -71,7 +71,7 @@
                     {% endif %}
                         <a href="https://www.facebook.com/{{ post['id'] }}" target="_blank" class="card-link"><i class="fa fa-facebook-official fa-lg"></i> View post</a>
                     </div>
-                    <div class="card-footer" style="background: #060713; color: white;">
+                    <div class="card-footer" style="background: #3E4450; color: white;">
                         <h6 class="card-subtitle small">Posted on {{ post['real_date'] }} at {{ post['real_time'] }}</h6>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
             <div class="card-columns">     
           {% for post in data[1] %}
               <div class="card text-xs-center animated" style="visibility: visible; animation-name: bounceInUp;">
-                    <div class="card-header" style="background: #060713; color: white;">
+                    <div class="card-header" style="background: #3E4450; color: white;">
                         {{post['source']}}
                     </div>
                     {% if post['pic'] %}
@@ -110,7 +110,7 @@
                     {% endif %}
                         <a href="https://www.facebook.com/{{ post['id'] }}" target="_blank" class="card-link"><i class="fa fa-facebook-official fa-lg"></i> View post</a>
                     </div>
-                    <div class="card-footer" style="background: #060713; color: white;">
+                    <div class="card-footer" style="background: #3E4450; color: white;">
                         <h6 class="card-subtitle small">Posted on {{ post['real_date'] }} at {{ post['real_time'] }}</h6>
                     </div>
                 </div>
