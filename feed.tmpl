@@ -16,7 +16,8 @@
             overflow-y: auto;
           }
           body { 
-             font-family: 'LiberationSansRegular'; 
+             font-family: 'Linux Libertine'; /* normal */
+             src: url('fonts/LinLibertine_R.woff') format('woff');
              font-weight: normal; 
              font-style: normal; 
           }
@@ -40,7 +41,7 @@
             </ul>
         </nav>
         <br><br><br><br>
-        <div class="hidden-md-up">
+        <div class="hidden-md-up bLazy" >
         <div class="container">
             <div class="card-columns">     
           {% for post in data[0] %}
