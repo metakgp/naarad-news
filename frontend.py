@@ -119,7 +119,7 @@ def get_html(data):
 
 def write_html(data, file_name):
     html = get_html(data)
-    file_handle = open(file_name, 'w')
+    file_handle = open(file_name, 'w', encoding="utf8")
     file_handle.write(html)
 
 
