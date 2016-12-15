@@ -28,10 +28,7 @@ def truncate(message,length):
 
     while length < len(message):
         if message[length] == " ":
-            if length == len(message)-1:
-                return message[0:length]
-            else:     
-                return message[0:length]
+            return message[0:length]
         length = length+1
     return message[0:len(message)-1]
 
@@ -69,8 +66,6 @@ def enable_links(message):
         else:    
            # message = shortify_string(message)
             message = message.replace(link, ' <a href=\'{}\' target=\'_blank\'> {} </a> '.format(http_link, link[0:25]+'...') ,1 ) 
-
-        message = message.replace("\"","'")   
     return message
 
 def get_big_screen_array(data):
