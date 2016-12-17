@@ -1,9 +1,11 @@
 from __future__ import print_function
 
+import os
 import re
 import json
 from dateutil.parser import parse, tz
 import urllib.request
+import time
 
 import facepy
 from facepy import GraphAPI
@@ -272,3 +274,16 @@ if __name__ == "__main__":
 
 	json.dump(data, open('docs/feed.json', 'w'))
 	write_html(data, 'docs/index.html')
+
+	localtime = str(time.asctime( time.localtime(time.time()) ))
+	stamp="            <font size=2 color=\"white\"><div align=\"right\"><b>Last updated: "+localtime+" IST</b></div></font>\n"
+	fn=open("docs/index.html","r+")
+	fo=open("docs/indext.html","w")
+	while (True):
+  		abc=fn.readline()
+  		fo.write(abc)
+  		if not abc: break
+  		if (abc[:30]=="            <!Time stamp here>"):    fo.write(stamp)
+fn.close()
+fo.close()
+os.system("mv docs/indext.html docs/index.html")
