@@ -97,6 +97,7 @@ def get_html(data):
 
     for post in data:
         if 'message' in post:
+          if (type(post['message']) is str):
             post['message'] = fixnewlines(post['message'])
             if 'flag' not in post :
                 post['message'] = enable_links(post['message'])
