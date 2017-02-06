@@ -4,11 +4,8 @@ import os
 import re
 import json
 from dateutil.parser import parse, tz
-import urllib.request
 import time
-
-import facepy
-from facepy import GraphAPI
+import requests
 
 from frontend import write_html
 
@@ -16,61 +13,73 @@ from frontend import write_html
 # To get an access token follow this SO answer:
 # http://stackoverflow.com/a/16054555/1780891
 
+base_url = 'https://graph.facebook.com/v2.8/'
 with open('./ACCESS_TOKEN', 'r') as f:
 	access_token = f.readline().rstrip('\n')
+payload = {'access_token': access_token, 'limit': 2}
 
-graph = GraphAPI(access_token)
+s = requests.Session()
 
 
 def get_comments(post_id):
-	base_query = post_id + '/comments'
+	sub_url = post_id + '/comments'
 
 	# scrape the first page
-	print('scraping:', base_query)
-	comments = graph.get(base_query)
+	print('scraping:', sub_url)
+	response = s.get(base_url + sub_url, params=payload)
+	comments = json.loads(response.text)
 	data = comments['data']
 	return data
 
 
 def get_picture(post_id, dir="."):
-	base_query = post_id + '?fields=object_id'
+	sub_url = post_id + '?fields=object_id'
 	try:
-		pic_id = graph.get(base_query)['object_id']
+		response = s.get(base_url + sub_url, params=payload)
+		pic_obj = json.loads(response.text)
+		pic_id = pic_obj['object_id']
 	except KeyError:
 		return None
 
 	try:
-		pic = graph.get('{}?fields=images'.format(pic_id))
+		sub_url = pic_id + '?fields=images'
+		response = s.get(base_url + sub_url, params=payload)
+		pic = json.loads(response.text)
 		return (pic['images'][0]['source'])
 		# f_name = "{}/{}.png".format(dir, pic_id)
 		# f_handle = open(f_name, "wb")
 		# f_handle.write(pic)
 		# f_handle.close()
 		# return "{}.png".format(pic_id)
-	except facepy.FacebookError:
+	except KeyError:
 		return None
 
 
 def get_event_picture(post_id, dir="."):
-	base_query = post_id + '?fields=object_id'
+	sub_url = post_id + '?fields=object_id'
 	try:
-		pic_id = graph.get(base_query)['object_id']
+		response = s.get(base_url + sub_url, params=payload)
+		pic_id = json.loads(response.text)['object_id']
 	except KeyError:
 		return None
 	try:
-		pic = graph.get('{}?fields=cover'.format(pic_id))
+		sub_url = pic_id + '?fields=cover'
+		response = s.get(base_url + sub_url, params=payload)
+		pic = json.loads(response.text)
 		return (pic['cover']['source'])
 		# urllib.request.urlretrieve(pic['cover']['source'] , "{}/{}.png".format(dir, pic_id))
 		# return "{}.png".format(pic_id)
-	except facepy.FacebookError:
+	except KeyError:
 		return None
 
 
 def get_link(post_id):
-	base_query = post_id + '?fields=link'
+	sub_url = post_id + '?fields=link'
 
 	try:
-		link = graph.get(base_query)['link']
+		response = s.get(base_url + sub_url, params=payload)
+		pic = json.loads(response.text)
+		link = pic['link']
 	except KeyError:
 		return None
 
@@ -78,8 +87,9 @@ def get_link(post_id):
 
 
 def get_event(post_id, page_id):
-	base_query = page_id + '/events'
-	all_events = graph.get(base_query)
+	sub_url = page_id + '/events'
+	response = s.get(base_url + sub_url, params=payload)
+	all_events = json.loads(response.text)
 
 	message = """
 {}
@@ -105,29 +115,33 @@ Veunu: {}
 
 def get_shared_post(post_id):
 	print (post_id)
-	base_query = post_id + '?fields=parent_id'
+	sub_url = post_id + '?fields=parent_id'
 	# getting id of the original post
 	try :	
-		parent_id = graph.get(base_query)['parent_id']
+		response = s.get(base_url + sub_url, params=payload)
+		parent_id = json.loads(response.text)['parent_id']
 		query = parent_id + '?fields=message'
 	except KeyError :
 		query = post_id + '?fields=message'
 	try :
-		original_message = graph.get(query)['message']
+		response = s.get(base_url + query, params=payload)
+		original_message = json.loads(response.text)['message']
 	except KeyError :
 		original_message = ""
 	return original_message
 
 def get_video(post_id) :
 	video_id = post_id.split('_')[1]
-	base_url = video_id + "?fields=embeddable"
+	sub_url = video_id + "?fields=embeddable"
 	try : 
-		embed_flag = graph.get(base_url)['embeddable'] 
-	except facepy.exceptions.OAuthError:
+		response = s.get(base_url + sub_url, params=payload)
+		embed_flag = json.loads(response.text)['embeddable']
+	except KeyError:
 		return ""
 	if embed_flag : #checking if the video is embedddable 
 		embed_html_url=video_id + '?fields=from,source'
-		query = graph.get(embed_html_url)
+		response = s.get(base_url + embed_html_url, params=payload)
+		query = json.loads(response.text)
 		video_url = query['source']
 		page_name = query['from']['name']
 		msg = """<b>{} shared the following video\n\n
@@ -147,11 +161,12 @@ def get_feed(page_id, pages=10):
 		old_data = []
 		last_post_time = parse("1950-01-01T12:05:06+0000")
 
-	base_query = page_id + '/feed?limit=2'
+	sub_url = page_id + '/feed'
 
 	# scrape the first page
-	print('scraping:', base_query)
-	feed = graph.get(base_query)
+	print('scraping:', sub_url)
+	response = s.get(base_url + sub_url, params=payload)
+	feed = json.loads(response.text)
 	new_page_data = feed['data']
 
 	data = []
@@ -162,7 +177,7 @@ def get_feed(page_id, pages=10):
 
 	# determine the next page
 	next_page = feed['paging']['next']
-	next_search = re.search('.*(\&until=[0-9]+)', next_page, re.IGNORECASE)
+	next_search = re.search('.*(until=[0-9]+)', next_page, re.IGNORECASE)
 	if next_search:
 		the_until_arg = next_search.group(1)
 
@@ -170,16 +185,17 @@ def get_feed(page_id, pages=10):
 
 	# scrape the rest of the pages
 	while (next_page is not False) and is_new_post and pages > 0:
-		the_query = base_query + the_until_arg
-		print('baking:', the_query)
+		sub_url = page_id + '/feed?' + the_until_arg
+		print('baking:', sub_url)
 		try:
-			feed = graph.get(the_query)
+			response = s.get(base_url + sub_url, params=payload)
+			feed = json.loads(response.text)
 			new_page_data = feed['data']
 			is_new_post = (
 				parse(new_page_data[0]['created_time']) > last_post_time)
 
 			data.extend(new_page_data)
-		except facepy.exceptions.OAuthError:
+		except requests.exceptions.RequestException:
 			print('start again at', the_query)
 			break
 
@@ -187,7 +203,7 @@ def get_feed(page_id, pages=10):
 		try:
 			next_page = feed['paging']['next']
 			next_search = re.search(
-				'.*(\&until=[0-9]+)', next_page, re.IGNORECASE)
+				'.*(until=[0-9]+)', next_page, re.IGNORECASE)
 			if next_search:
 				the_until_arg = next_search.group(1)
 		except IndexError:

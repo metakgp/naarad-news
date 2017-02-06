@@ -1,25 +1,5 @@
 commonregex==1.5.4
 Django==1.9.1
-django-frontend==1.8.0
-django-utils==0.0.2
-encoding==1.0.0
--e git+https://github.com/hargup/facepy@0b2c15586028bead5f17be9ec8fce63b0910273c#egg=facepy
-httplib2==0.9.2
 Jinja2==2.8
-keyring==9.3.1
-MarkupSafe==0.23
-oauth2client==3.0.0
-pyasn1==0.1.9
-pyasn1-modules==0.0.8
-python-dateutil==2.5.3
-pytz==2016.6.1
 requests==2.10.0
-rsa==3.4.2
-simplejson==3.8.2
-six==1.10.0
-uritemplate==0.6
-urllib2-file==0.2.1
-urllib2-prior-auth==0.2.0
-urllib3==1.16
-utils==0.9.0
-wheel==0.26.0
+python_dateutil==2.6.0
