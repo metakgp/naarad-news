@@ -18,7 +18,7 @@ with open('./ACCESS_TOKEN', 'r') as f:
 	access_token = f.readline().rstrip('\n')
 payload = {'access_token': access_token, 'limit': 2}
 
-s = requests.Session()
+req_session = requests.Session()
 
 
 def get_comments(post_id):
@@ -26,7 +26,7 @@ def get_comments(post_id):
 
 	# scrape the first page
 	print('scraping:', sub_url)
-	response = s.get(base_url + sub_url, params=payload)
+	response = req_session.get(base_url + sub_url, params=payload)
 	comments = json.loads(response.text)
 	data = comments['data']
 	return data
@@ -35,7 +35,7 @@ def get_comments(post_id):
 def get_picture(post_id, dir="."):
 	sub_url = post_id + '?fields=object_id'
 	try:
-		response = s.get(base_url + sub_url, params=payload)
+		response = req_session.get(base_url + sub_url, params=payload)
 		pic_obj = json.loads(response.text)
 		pic_id = pic_obj['object_id']
 	except KeyError:
@@ -43,7 +43,7 @@ def get_picture(post_id, dir="."):
 
 	try:
 		sub_url = pic_id + '?fields=images'
-		response = s.get(base_url + sub_url, params=payload)
+		response = req_session.get(base_url + sub_url, params=payload)
 		pic = json.loads(response.text)
 		return (pic['images'][0]['source'])
 		# f_name = "{}/{}.png".format(dir, pic_id)
@@ -58,13 +58,13 @@ def get_picture(post_id, dir="."):
 def get_event_picture(post_id, dir="."):
 	sub_url = post_id + '?fields=object_id'
 	try:
-		response = s.get(base_url + sub_url, params=payload)
+		response = req_session.get(base_url + sub_url, params=payload)
 		pic_id = json.loads(response.text)['object_id']
 	except KeyError:
 		return None
 	try:
 		sub_url = pic_id + '?fields=cover'
-		response = s.get(base_url + sub_url, params=payload)
+		response = req_session.get(base_url + sub_url, params=payload)
 		pic = json.loads(response.text)
 		return (pic['cover']['source'])
 		# urllib.request.urlretrieve(pic['cover']['source'] , "{}/{}.png".format(dir, pic_id))
@@ -77,7 +77,7 @@ def get_link(post_id):
 	sub_url = post_id + '?fields=link'
 
 	try:
-		response = s.get(base_url + sub_url, params=payload)
+		response = req_session.get(base_url + sub_url, params=payload)
 		pic = json.loads(response.text)
 		link = pic['link']
 	except KeyError:
@@ -88,7 +88,7 @@ def get_link(post_id):
 
 def get_event(post_id, page_id):
 	sub_url = page_id + '/events'
-	response = s.get(base_url + sub_url, params=payload)
+	response = req_session.get(base_url + sub_url, params=payload)
 	all_events = json.loads(response.text)
 
 	message = """
@@ -118,13 +118,13 @@ def get_shared_post(post_id):
 	sub_url = post_id + '?fields=parent_id'
 	# getting id of the original post
 	try :	
-		response = s.get(base_url + sub_url, params=payload)
+		response = req_session.get(base_url + sub_url, params=payload)
 		parent_id = json.loads(response.text)['parent_id']
 		query = parent_id + '?fields=message'
 	except KeyError :
 		query = post_id + '?fields=message'
 	try :
-		response = s.get(base_url + query, params=payload)
+		response = req_session.get(base_url + query, params=payload)
 		original_message = json.loads(response.text)['message']
 	except KeyError :
 		original_message = ""
@@ -134,13 +134,13 @@ def get_video(post_id) :
 	video_id = post_id.split('_')[1]
 	sub_url = video_id + "?fields=embeddable"
 	try : 
-		response = s.get(base_url + sub_url, params=payload)
+		response = req_session.get(base_url + sub_url, params=payload)
 		embed_flag = json.loads(response.text)['embeddable']
 	except KeyError:
 		return ""
 	if embed_flag : #checking if the video is embedddable 
 		embed_html_url=video_id + '?fields=from,source'
-		response = s.get(base_url + embed_html_url, params=payload)
+		response = req_session.get(base_url + embed_html_url, params=payload)
 		query = json.loads(response.text)
 		video_url = query['source']
 		page_name = query['from']['name']
@@ -165,7 +165,7 @@ def get_feed(page_id, pages=10):
 
 	# scrape the first page
 	print('scraping:', sub_url)
-	response = s.get(base_url + sub_url, params=payload)
+	response = req_session.get(base_url + sub_url, params=payload)
 	feed = json.loads(response.text)
 	new_page_data = feed['data']
 
@@ -188,7 +188,7 @@ def get_feed(page_id, pages=10):
 		sub_url = page_id + '/feed?' + the_until_arg
 		print('baking:', sub_url)
 		try:
-			response = s.get(base_url + sub_url, params=payload)
+			response = req_session.get(base_url + sub_url, params=payload)
 			feed = json.loads(response.text)
 			new_page_data = feed['data']
 			is_new_post = (
