@@ -42,7 +42,7 @@
             </ul>
         </nav>
         <br><br><br><br>
-        <div class="hidden-md-up bLazy" >
+        <div class="hidden-md-up" >
         <div class="container">
             <div class="card-columns">     
           {% for post in data[0] %}
@@ -51,7 +51,7 @@
                         {{post['source']}}
                     </div>
                     {% if post['pic'] %}
-                    <img width="100%" class="card-img-top img-fluid b-lazy" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== data-src="{{ post['pic'] }}">
+                    <img width="100%" class="card-img-top img-fluid b-lazy" src="ripple.gif" data-src="{{ post['pic'] }}">
                     {% endif %}
                     <div class="card-block">
                         <p class="card-text">
@@ -90,7 +90,7 @@
                         {{post['source']}}
                     </div>
                     {% if post['pic'] %}
-                    <img width="100%" class="card-img-top img-fluid b-lazy" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== data-src="{{ post['pic'] }}">
+                    <img width="100%" class="card-img-top img-fluid b-lazy" src="ripple.gif" data-src="{{ post['pic'] }}">
                     {% endif %}
                     <div class="card-block">
                         <p class="card-text">

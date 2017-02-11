@@ -258,15 +258,8 @@ def get_aggregated_feed(pages):
 
 if __name__ == "__main__":
 	# Great thanks to https://gist.github.com/abelsonlive/4212647
-	news_pages = [('The Scholar\'s Avenue', 'scholarsavenue'),
-				  ('Awaaz IIT Kharagpur', 'awaaziitkgp'),
-				  ('Technology Students Gymkhana', 'TSG.IITKharagpur'),
-				  ('Technology IIT KGP', 'iitkgp.tech'),
-				  ('Metakgp', 'metakgp'),
-				("KOSS" , "kossiitkgp"),
-				("Spring Fest" , "springfest.iitkgp"),
-				("Kshitij" , "ktj.iitkgp")]
-	for_later = ['Cultural-IIT-Kharagpur']
+	news_pages = json.load(open("./pages.json"))
+	# for_later = ['Cultural-IIT-Kharagpur']
 
 	data = get_aggregated_feed(news_pages)
 	data = remove_duplicates(data)
