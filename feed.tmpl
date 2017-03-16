@@ -135,7 +135,8 @@
         <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap4.min.js"></script>
         <script type="text/javascript">
         $.extend( true, $.fn.dataTable.defaults, {
-    "ordering": false
+    "ordering": false,
+    "bInfo" : false
 } );
         $(document).ready(function(){
             $('#feed').DataTable();
