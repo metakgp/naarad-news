@@ -135,11 +135,16 @@
         <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap4.min.js"></script>
         <script type="text/javascript">
         $.extend( true, $.fn.dataTable.defaults, {
-    "ordering": false,
-    "bInfo" : false
-} );
+          "ordering": false,
+          "bInfo" : false
+        });
         $(document).ready(function(){
             $('#feed').DataTable();
+        });
+        $('#feed').on( 'page.dt', function () {
+            $('html, body').animate({
+                scrollTop: 0
+            }, 200);        
         });
         $('#big').on('show.bs.modal', function (event) {
           var button = $(event.relatedTarget) // Button that triggered the modal
