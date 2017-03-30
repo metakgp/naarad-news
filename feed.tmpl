@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
         <link rel="stylesheet" href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css" integrity="sha384-Wrgq82RsEean5tP3NK3zWAemiNEXofJsTwTyHmNb/iL3dP/sZJ4+7sOld1uqYJtE" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap4.min.css">
         <style>
           .modal-body {
             max-height: calc(100vh - 210px);
@@ -42,16 +43,25 @@
             </ul>
         </nav>
         <br><br><br><br>
-        <div class="hidden-md-up" >
         <div class="container">
-            <div class="card-columns">     
-          {% for post in data[0] %}
+<table id="feed" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th style="text-align:center;">KGPian Newsfeed</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for post in data %}
+            <tr>
+                <td>
                 <div class="card text-xs-center animated bounceInUp" style="visibility: visible; animation-name: bounceInUp;">
                     <div class="card-header" style="background: #3E4450; color: white;">
                         {{post['source']}}
                     </div>
                     {% if post['pic'] %}
-                    <img width="100%" class="card-img-top img-fluid b-lazy" src="ripple.gif" data-src="{{ post['pic'] }}">
+                    <div class="col-lg-2">
+                    <img class="card-img-top img-fluid b-lazy" src="ripple.gif" data-src="{{ post['pic'] }}">
+                    </div>
                     {% endif %}
                     <div class="card-block">
                         <p class="card-text">
@@ -77,49 +87,13 @@
                         <h6 class="card-subtitle small">Posted on {{ post['real_date'] }} at {{ post['real_time'] }}</h6>
                     </div>
                 </div>
+          </td>
+          </tr>
+
           {% endfor %}
-                  </div>
-                </div>
-                </div>
-        <div class="hidden-sm-down">
-        <div class="container">
-            <div class="card-columns">     
-          {% for post in data[1] %}
-              <div class="card text-xs-center animated" style="visibility: visible; animation-name: bounceInUp;">
-                    <div class="card-header" style="background: #3E4450; color: white;">
-                        {{post['source']}}
-                    </div>
-                    {% if post['pic'] %}
-                    <img width="100%" class="card-img-top img-fluid b-lazy" src="ripple.gif" data-src="{{ post['pic'] }}">
-                    {% endif %}
-                    <div class="card-block">
-                        <p class="card-text">
-                          {{post['short_message'] }}
-                    {% if post['read_more'] %}
-                      {% if post['pic'] %}
-                        <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}} " data-img = "{{post['pic']}}" class="card-link"> [...]</a>
-                      {% else %}
-                        <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}} " data-img = "0" class="card-link"> [...]</a>
-                      {% endif %}
-                    {% endif %}
-                        </p>
-                    {% if post['read_more'] %}
-                      {% if post['pic'] %}
-                        <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}} " data-img = "{{post['pic']}}" class="card-link"><i class="fa fa-book fa-lg"></i> Read more</a>
-                      {% else %}
-                        <a href="#" data-toggle="modal" data-target="#big" data-source=" {{post['source']}} " data-message=" {{post['message']}} " data-img = "0" class="card-link"><i class="fa fa-book fa-lg"></i> Read more</a>
-                      {% endif %}
-                    {% endif %}
-                        <a href="https://www.facebook.com/{{ post['id'] }}" target="_blank" class="card-link"><i class="fa fa-facebook-official fa-lg"></i> View post</a>
-                    </div>
-                    <div class="card-footer" style="background: #3E4450; color: white;">
-                        <h6 class="card-subtitle small">Posted on {{ post['real_date'] }} at {{ post['real_time'] }}</h6>
-                    </div>
-                </div>
-          {% endfor %}                  
-          </div>
-                </div>
-                </div>        
+          </tbody>
+          </table>
+       
         <div class="bd-example">
             <div class="modal fade" id="big" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -157,7 +131,21 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap4.min.js"></script>
         <script type="text/javascript">
+        $.extend( true, $.fn.dataTable.defaults, {
+          "ordering": false,
+          "bInfo" : false
+        });
+        $(document).ready(function(){
+            $('#feed').DataTable();
+        });
+        $('#feed').on( 'page.dt', function () {
+            $('html, body').animate({
+                scrollTop: 0
+            }, 200);        
+        });
         $('#big').on('show.bs.modal', function (event) {
           var button = $(event.relatedTarget) // Button that triggered the modal
           var source = button.data('source') // Extract info from data-* attributes

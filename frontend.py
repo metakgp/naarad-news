@@ -68,30 +68,6 @@ def enable_links(message):
             message = message.replace(link, ' <a href=\'{}\' target=\'_blank\'> {} </a> '.format(http_link, link[0:25]+'...') ,1 ) 
     return message
 
-def get_big_screen_array(data):
-    final_data = []
-    n = len(data)
-    # if n%3 != 1 :
-    for i in range(0,n,3) :
-        final_data.append(data[i])
-    for i in range(1,n,3) :
-        final_data.append(data[i])
-    for i in range(2,n,3) :
-        final_data.append(data[i])                
-    # else : 
-    #     l1 = len(range(0,n,3)) - 1
-    #     l2 = l1 + len(range(2,n,3))
-    #     for i in range(0,n,3) :
-    #         final_data.append(data[i])
-    #     for i in range(1,n,3) :
-    #         final_data.append(data[i])
-    #     final_data.append(final_data[l1])
-    #     final_data[l1] = data[n-1] 
-    #     for i in range(2,n-3,3) :
-    #         final_data.append(data[i])
-
-    return final_data
-
 def get_html(data):
     template_raw = open('feed.tmpl', 'r').read()
 
@@ -107,8 +83,7 @@ def get_html(data):
             post['read_more'] = truncate_length(post['message'],150)
     json.dump(data, open('docs/feed.json', 'w'))
     template = Template(template_raw)
-    data2 = get_big_screen_array(data)
-    html = template.render(data=[data,data2])
+    html = template.render(data=data)
     # smart_str helps in unicode rendering
     return smart_str(html)
 
