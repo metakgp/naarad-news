@@ -138,9 +138,11 @@
           "ordering": false,
           "bInfo" : false
         });
-        $(document).ready(function(){
-            $('#feed').DataTable();
-        });
+      $(document).ready(function() {
+    $('#feed').DataTable( {
+        "dom": '<"top"i>rt<"bottom"flp><"clear">'
+    } );
+} );
         $('#feed').on( 'page.dt', function () {
             $('html, body').animate({
                 scrollTop: 0
