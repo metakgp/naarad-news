@@ -6,6 +6,7 @@ import json
 from dateutil.parser import parse, tz
 import time
 import requests
+from random import random
 
 from frontend import write_html
 
@@ -274,6 +275,8 @@ def get_aggregated_feed(pages):
 
 
 if __name__ == "__main__":
+	f=open("hist.txt","w")
+	f.write(str(random()))
 	# Great thanks to https://gist.github.com/abelsonlive/4212647
 	news_pages = json.load(open("./pages.json"))
 	# for_later = ['Cultural-IIT-Kharagpur']
