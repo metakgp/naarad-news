@@ -7,6 +7,8 @@ from dateutil.parser import parse, tz
 import time
 import requests
 from random import random
+from datetime import datetime, timezone
+import pytz
 
 from frontend import write_html
 
@@ -288,15 +290,19 @@ if __name__ == "__main__":
 	json.dump(data, open('docs/feed.json', 'w'))
 	write_html(data, 'docs/index.html')
 
-	localtime = str(time.asctime( time.localtime(time.time()) ))
-	stamp="            <font size=2 color=\"white\"><div align=\"right\"><b>Last updated: "+localtime+" IST</b></div></font>\n"
-	fn=open("docs/index.html","r+")
+	tz = pytz.timezone('Asia/Kolkata')
+	now =  datetime.now(tz)
+	minutes = now.minute
+	if (len(str(minutes))==1):
+		text = "            <font size=2 color=\"white\"><div align=\"right\"><b>Last updated: "+str(now.day)+"-"+str(now.month)+"-"+str(now.year)+", "+str(now.hour)+":0"+str(minutes)+" IST</b></div></font>\n"
+	else:
+		text = "            <font size=2 color=\"white\"><div align=\"right\"><b>Last updated: "+str(now.day)+"-"+str(now.month)+"-"+str(now.year)+", "+str(now.hour)+":"+str(minutes)+" IST</b></div></font>\n"
+	fn=open("docs/index.html","r")
 	fo=open("docs/indext.html","w")
-	while (True):
-  		abc=fn.readline()
-  		fo.write(abc)
-  		if not abc: break
-  		if (abc[:30]=="            <!Time stamp here>"):    fo.write(stamp)
+	all_text = fn.read()
+	all_text = all_text.replace('            <!Time stamp here>',text)
+	fo.write(all_text)
+
 fn.close()
 fo.close()
 os.system("mv docs/indext.html docs/index.html")
