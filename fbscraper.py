@@ -14,8 +14,9 @@ from frontend import write_html
 # http://stackoverflow.com/a/16054555/1780891
 
 base_url = 'https://graph.facebook.com/v2.8/'
-with open('./ACCESS_TOKEN', 'r') as f:
-	access_token = f.readline().rstrip('\n')
+# with open('./ACCESS_TOKEN', 'r') as f:
+# 	access_token = f.readline().rstrip('\n')
+access_token=str(os.environ['ACCESS_TOKEN'])
 payload = {'access_token': access_token, 'limit': 2}
 
 req_session = requests.Session()
