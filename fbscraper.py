@@ -173,7 +173,10 @@ def get_feed(page_id, pages=10):
     print('scraping:', sub_url)
     response = req_session.get(base_url + sub_url, params=payload)
     feed = json.loads(response.text)
-    new_page_data = feed['data']
+    try:
+        new_page_data = feed['data']
+    except:
+        return []
 
     data = []
     is_new_post = (parse(new_page_data[0]['created_time']) > last_post_time)
