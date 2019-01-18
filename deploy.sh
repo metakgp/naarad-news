@@ -11,7 +11,7 @@ echo "Slept for another 9 minutes"
 sleep 9m
 echo "Again slept for 9 minutes"
 git remote add origin-here https://${OUATH_KEY}@github.com/americast/naarad-source.git
-git fetch --unshallow origin-here
+git fetch origin-here
 python3 fbscraper.py
 #python3 frontend.py
 # deactivate
