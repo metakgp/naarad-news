@@ -1,5 +1,5 @@
 commonregex==1.5.4
-Django==1.9.1
-Jinja2==2.8
-requests==2.10.0
+Django>=1.11.19
+Jinja2>=2.8.1
+requests>=2.20.0
 python_dateutil==2.6.0
