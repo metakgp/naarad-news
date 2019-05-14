@@ -187,6 +187,7 @@ def get_feed(page_id, pages=10):
     # determine the next page
     next_page = feed['paging']['next']
     next_search = re.search('.*(until=[0-9]+)', next_page, re.IGNORECASE)
+    the_until_arg = ""
     if next_search:
         the_until_arg = next_search.group(1)
 
