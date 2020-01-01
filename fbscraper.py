@@ -180,6 +180,8 @@ def get_feed(page_id, pages=10):
 	next_search = re.search('.*(until=[0-9]+)', next_page, re.IGNORECASE)
 	if next_search:
 		the_until_arg = next_search.group(1)
+	else:
+		the_until_arg = ""
 
 	pages = pages - 1
 

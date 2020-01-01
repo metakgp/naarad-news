@@ -21,6 +21,34 @@
              font-weight: normal; 
              font-style: normal; 
           }
+          nav {
+            position:relative; 
+            top:50px; 
+            margin-left:auto; 
+            margin-right:auto;
+            width:100; 
+            height:140px; 
+            background:#060713;}
+          .search_bar input[type="text"] {
+            position:absolute;
+            left:75%;
+            top:60%;
+            width:20%;
+            background-color:white;
+            color:black;}
+          .search_bar select[id="scrolldowndefined"] {
+            position:absolute;
+            left:5%;
+            top:62%;
+            width:20%;
+            background-color:white;
+            color:black;}
+            #feed_paginate {
+               position: fixed;
+               bottom: 0;
+               right: 0;
+               width: 100%;
+            }
         </style>
     </head>
     <body>
@@ -29,7 +57,18 @@
             <a class="navbar-brand" href="#" style="margin-top:-10px;">
                 <i class="fa fa-slack"></i> NAARAD
             </a>
-
+             <div class="search_bar">
+               <input type="text" name="search" placeholder="Search" id="myInputTextField">
+             <select id="scrolldowndefined">
+             <option id="show">Show</option>
+              <option id="10">10 posts</option>
+              <option id="25">25 posts</option>
+              <option id="50">50 posts</option>
+              <option id="100">100 posts</option>
+             </select>
+             </div>
+            <div class="wrapper">
+            </div>
             <ul class="nav navbar-nav float-xs-right">
                 <li class="nav-item active">
                     <a class="nav-link" href="https://wiki.metakgp.org/w/Main_Page" target="_blank"><i class="fa fa-wikipedia-w fa-lg"></i></a>
@@ -138,14 +177,42 @@
           "ordering": false,
           "bInfo" : false
         });
-        $(document).ready(function(){
-            $('#feed').DataTable();
-        });
+      $(document).ready(function() {
+    table = $('#feed').DataTable({
+        "ordering": false,
+        "info":     false,
+        "visible": false,
+        "searching":false,
+        "lengthChange":false
+    })
+} );
         $('#feed').on( 'page.dt', function () {
             $('html, body').animate({
                 scrollTop: 0
             }, 200);        
         });
+        $('#myInputTextField').keyup(function(){
+        table.search($(this).val()).draw() ;
+        });
+        $('#scrolldowndefined').change(function(){
+             if($(this).val() == "100 posts"){
+             table.page.len(100).draw(false)  
+    } else if($(this).val() == "50 posts"){
+       table.page.len(50).draw(false)        
+    } else if($(this).val() == "25 posts") {
+    	table.page.len(25).draw(false) 
+    } else if($(this).val() == "10 posts"){
+    	table.page.len(10).draw(false) 
+    }
+    $('html, body').animate({
+                scrollTop: 0
+            }, 200); 
+     });
+        $('#next').on( 'click', function () {
+        table.page( 'next' ).draw( 'page' );
+        } );
+ 
+
         $('#big').on('show.bs.modal', function (event) {
           var button = $(event.relatedTarget) // Button that triggered the modal
           var source = button.data('source') // Extract info from data-* attributes
@@ -185,6 +252,6 @@
             var bLazy = new Blazy();
           })();
         </script>
-    </body>
+         </body>
 </html>
     
