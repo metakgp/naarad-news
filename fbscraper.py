@@ -16,7 +16,11 @@ from frontend import write_html
 base_url = 'https://graph.facebook.com/v2.8/'
 with open('./ACCESS_TOKEN', 'r') as f:
 	access_token = f.readline().rstrip('\n')
-payload = {'access_token': access_token, 'appsecret_proof':'d05c8510fd28501a023f1b7c3b46d4f5bccb907a2e9c9f43049bdd4864b8ca54','limit': 20}
+
+with open('./APPSECRET_PROOF', 'r') as f:
+	appsecret_proof = f.readline().rstrip('\n')
+
+payload = {'access_token': access_token, 'appsecret_proof': appsecret_proof,'limit': 20}
 
 req_session = requests.Session()
 
