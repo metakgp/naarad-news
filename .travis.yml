@@ -1,19 +1,32 @@
-language: python
-sudo: false
-
-# specify versions
+sudo : required
+language:
+  - ruby 
+  - python
+rvm:
+  -  2.2.5
 python:
-  - "3.2"
-  - "3.3"
-  - "3.4"
   - "3.5"
-
-# install dependencies 
+before_install:
+  # - sudo apt-get install python3-pip
+  - (sudo killall apt-get && sudo killall apt) || echo "Nothing to kill"
+  - sudo apt-get install pandoc || sudo apt install pandoc
+  - gem install asciidoctor
 install: 
-  - "pip install -r requirements.txt"
+  # - gem install html-proofer
+  - sudo apt install python3-dateutil || sudo apt-get install python3-dateutil
+  - sudo apt install python3-pip || sudo apt-get install python3-pip
+  - python3 -m pip install python-dateutil --user
+  - python3 -m pip install requests --user
+  - python3 -m pip install  -r requirements.txt --user
+  - python3 -m pip install pytz --user
+  # - sudo apt install cloc
+script:
+  # - ruby proofer.rb
+  # - python app.py
+  - git checkout master
+  - bash deploy.sh
+  - bash push.sh
 
-# run tests
-script: 
-  - pytest
-
-# check build at https://travis-ci.org/repositories
+branches:
+    only:
+      -  master
